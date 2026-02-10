@@ -156,14 +156,9 @@
             z-index: -1;
             background-size: cover;
             background-position: center;
-            transition: background-image 1s ease-in-out;
-        }
-
-        .overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 0;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            object-fit: cover;
         }
 
         .hero-content {
@@ -439,6 +434,12 @@
 
             .logo {
                 font-size: 1.4rem;
+            }
+
+            .slider-bg {
+                background-attachment: scroll;
+                background-size: cover;
+                background-position: center;
             }
         }
 
@@ -1585,14 +1586,17 @@
                 <div class="stat-card">
                     <p style="font-size:0.8rem; color:#666;">إجمالي الطلبات</p>
                     <div id="stat-orders" class="stat-val">0</div>
+                    <button class="reset-btn" onclick="resetTotalOrders()" style="background: #e74c3c; margin-top: 5px;">تصفير إجمالي الطالبات 📊</button>
                 </div>
                 <div class="stat-card">
                     <p style="font-size:0.8rem; color:#666;">إجمالي المبيعات</p>
                     <div id="stat-revenue" class="stat-val">0 ج</div>
+                    <button class="reset-btn" onclick="resetRevenue()" style="background: #ff9800; margin-top: 5px;">تصفير المبيعات 💰</button>
                 </div>
                 <div class="stat-card" style="background: #fee2e2; border-color: #f87171;">
                     <p style="font-size:0.8rem; color:#b91c1c;">تسلسل الطلبات</p>
                     <button class="reset-btn" onclick="resetOrderCounter()">تصفير العدّاد 🔄</button>
+                    <button class="reset-btn" onclick="clearAllOrders()" style="background: #dc3545; margin-top: 5px;">مسح كل الأوردرات 🗑️</button>
                 </div>
             </div>
 
@@ -1602,6 +1606,15 @@
                     <button id="ramadan-toggle-btn" class="admin-btn" style="width:auto; padding:5px 20px;"
                         onclick="toggleRamadanMode()">تفعيل</button>
                 </div>
+            </div>
+
+            <div class="admin-section">
+                <h3>🖼️ تغيير صورة الصفحة الرئيسية</h3>
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <input type="file" id="home-bg-input" accept="image/*" style="flex:1;" onchange="handleHomeBgUpload(event)">
+                    <button class="admin-btn" style="width:auto; padding:5px 15px;" onclick="document.getElementById('home-bg-input').click()">اختر صورة</button>
+                </div>
+                <div id="home-bg-preview" style="margin-top:10px; text-align:center;"></div>
             </div>
 
             <div class="admin-section">
@@ -1620,7 +1633,11 @@
                     <textarea id="adm-type-custom" class="admin-input"
                         style="height:80px; resize:vertical; padding:8px;"
                         placeholder="أطعم المنتج (اكتب كل طعم في سطر منفصل)"></textarea>
-                    <input type="text" id="adm-img" class="admin-input" placeholder="اسم ملف الصورة">
+                    <div style="display:flex; gap:10px; margin-bottom:10px;">
+                        <input type="file" id="product-img-input" accept="image/*" style="flex:1;" onchange="handleProductImgUpload(event)">
+                        <button class="admin-btn" style="width:auto; padding:5px 15px;" onclick="document.getElementById('product-img-input').click()">اختر صورة المنتج</button>
+                    </div>
+                    <input type="text" id="adm-img" class="admin-input" placeholder="اسم ملف الصورة (يتم ملؤه تلقائياً)">
                     <input type="hidden" id="adm-edit-mode-index" value="-1">
                     <button id="adm-action-btn" class="admin-btn" onclick="admAddProduct()">إضافة المنتج</button>
                     <button id="adm-cancel-edit-btn" class="admin-btn"
@@ -1628,7 +1645,6 @@
                         التعديل</button>
                 </div>
             </div>
-
 
             <div class="admin-section">
                 <h3>📂 إدارة الأقسام</h3>
@@ -1973,33 +1989,35 @@
         initRamadanAtmosphere();
         if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
 
-        const slides = [];
-        let slideIdx = 0;
-        setInterval(() => {
-            slideIdx = (slideIdx + 1) % slides.length;
-            const el = document.getElementById('slider-bg');
-            if (el) el.style.backgroundImage = `url("${slides[slideIdx]}")`;
-        }, 5000);
+        // Background image slider disabled - keeping admin uploaded image static
 
         function showMenu() { document.getElementById('home-page').style.display = 'none'; document.getElementById('menu-page').style.display = 'block'; window.scrollTo(0, 0); render('oriental', document.querySelector('.tab')); }
         function showHome() { document.getElementById('home-page').style.display = 'flex'; document.getElementById('menu-page').style.display = 'none'; }
 
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
-        }
+function toggleTheme() {
+document.body.classList.toggle('dark-mode');
+localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
 
-        function searchProducts(q) {
+function searchProducts(q) {
             if (!q) return render(currentCat);
             let html = "";
             let found = false;
+            const uploadedImages = JSON.parse(localStorage.getItem('oudelle_uploaded_images') || '{}');
+
             for (let cat in database) {
                 database[cat].forEach((p, i) => {
                     const isSoldOut = p.inStock === false;
                     const hasDiscount = p.isDiscount || (p.oldPrice && parseFloat(p.oldPrice) > parseFloat(p.price));
-                    const discountHTML = hasDiscount ? `<div class="discount-status-badge">عرض خاص / خصم 🏷️</div>` : "";
-                    const img = p.img || `https://via.placeholder.com/300x200?text=${p.name}`;
-                    const vipHTML = p.isVIP ? `<div class="vip-badge">الشيف يرشحه 👑</div>` : "";
+                    const discountHTML = hasDiscount ? `<div class="discount-status-badge">عرض خاص / خصم </div>` : "";
+
+                    // Check if image exists in uploaded images or use placeholder
+                    let imgSrc = p.img || `https://via.placeholder.com/300x200?text=${p.name}`;
+                    if (p.img && uploadedImages[p.img]) {
+                        imgSrc = uploadedImages[p.img];
+                    }
+
+                    const vipHTML = p.isVIP ? `<div class="vip-badge">الشيف يرشحه </div>` : "";
 
                     if (!p.isMix && p.name.includes(q)) {
                         found = true;
@@ -2015,13 +2033,13 @@
                             const oldPriceHTML = oldDisplayPrice ? `<div class="old-price-display"><span class="price-strike-small">${oldDisplayPrice} ج</span></div>` : "";
 
                             let weightOptions = `<option value="0.25">250جم</option><option value="0.5">500جم</option><option value="1" selected>1 كيلو</option>`;
-                            html += `<div class="card ${isSoldOut ? 'sold-out' : ''}" style="position:relative;"><img src="${img}"><h3>${p.name}</h3>` +
+                            html += `<div class="card ${isSoldOut ? 'sold-out' : ''}" style="position:relative;"><img src="${imgSrc}"><h3>${p.name}</h3>` +
                                 `${discountHTML}${oldPriceHTML}<span class="price-badge">${displayPrice} ج/ربع كيلو</span>` +
                                 `${optionsHTML}<select id="s-w-${cat}-${i}" class="weight-select">${weightOptions}</select><button class="add-btn" onclick="addKgSearch('${cat}',${i})">إضافة</button></div>`;
                         } else {
                             if (!p.price) return;
                             const oldPriceHTML = p.oldPrice ? `<div class="old-price-display"><span class="price-strike-small">${p.oldPrice} ج</span></div>` : "";
-                            html += `<div class="card ${isSoldOut ? 'sold-out' : ''}" style="position:relative;"><img src="${img}"><h3>${p.name}</h3>` +
+                            html += `<div class="card ${isSoldOut ? 'sold-out' : ''}" style="position:relative;"><img src="${imgSrc}"><h3>${p.name}</h3>` +
                                 `${discountHTML}${oldPriceHTML}<span class="price-badge">${p.price} ج.م</span>` +
                                 `${optionsHTML}<input type="number" id="s-q-${cat}-${i}" class="weight-select" value="1" min="1"><button class="add-btn" onclick="addPieceSearch('${cat}',${i})">إضافة</button></div>`;
                         }
@@ -2153,6 +2171,36 @@
             if (confirm("⚠️ هل أنت متأكد من تصفير تسلسل الطلبات؟ الطلب القادم سيبدأ برقم #1.")) {
                 localStorage.setItem('oudelle_order_counter', 0);
                 alert("✅ تم تصفير العداد بنجاح!");
+            }
+        }
+
+        function resetRevenue() {
+            if (confirm("⚠️ تحذير: هل أنت متأكد من تصفير إجمالي المبيعات؟ هذا الإجراء لا يمكن التراجع عنه!")) {
+                database.stats.totalRevenue = 0;
+                saveAdminChanges();
+                renderStats();
+                alert("✅ تم تصفير إجمالي المبيعات بنجاح!");
+            }
+        }
+
+        function resetTotalOrders() {
+            if (confirm("⚠️ تحذير: هل أنت متأكد من تصفير إجمالي الطالبات؟ هذا الإجراء لا يمكن التراجع عنه!")) {
+                database.orders = [];
+                database.stats.totalOrders = 0;
+                localStorage.setItem('oudelle_order_counter', 0);
+                saveAdminChanges();
+                renderStats();
+                renderAdmOrders();
+                alert("✅ تم تصفير إجمالي الطالبات بنجاح!");
+            }
+        }
+
+        function clearAllOrders() {
+            if (confirm("⚠️ تحذير: هل أنت متأكد من مسح كل الأوردرات؟ هذا الإجراء لا يمكن التراجع عنه!")) {
+                database.orders = [];
+                saveAdminChanges();
+                renderAdmOrders();
+                alert("✅ تم مسح جميع الأوردرات بنجاح!");
             }
         }
 
@@ -2361,13 +2409,19 @@
                 return;
             }
 
+            const uploadedImages = JSON.parse(localStorage.getItem('oudelle_uploaded_images') || '{}');
             itemsWithIndex.forEach((p) => {
                 const i = p.index;
                 const isSoldOut = p.inStock === false;
                 const isVIP = p.isVIP || false;
                 const hasDiscount = p.isDiscount || (p.oldPrice && parseFloat(p.oldPrice) > parseFloat(p.price));
                 const discountHTML = hasDiscount ? `<div class="discount-status-badge">عرض خاص / خصم 🏷️</div>` : "";
+
+                // Check if image exists in uploaded images or use placeholder
                 let img = p.img || `https://via.placeholder.com/300x200?text=${p.name}`;
+                if (p.img && uploadedImages[p.img]) {
+                    img = uploadedImages[p.img];
+                }
 
                 const vipHTML = isVIP ? `<div class="vip-badge">الشيف يرشحه 👑</div>` : "";
 
@@ -2986,12 +3040,20 @@
             const sec = document.getElementById('best-sellers-section');
             if (all.length > 0) {
                 sec.classList.remove('hidden');
-                document.getElementById('best-sellers-grid').innerHTML = all.map(p => `
+                const uploadedImages = JSON.parse(localStorage.getItem('oudelle_uploaded_images') || '{}');
+                document.getElementById('best-sellers-grid').innerHTML = all.map(p => {
+                    // Check if image exists in uploaded images or use placeholder
+                    let imgSrc = p.img || 'https://via.placeholder.com/80';
+                    if (p.img && uploadedImages[p.img]) {
+                        imgSrc = uploadedImages[p.img];
+                    }
+                    return `
             <div class="best-seller-item" onclick="showMenu(); document.querySelector('.search-bar').value='${p.name}'; searchProducts('${p.name}')">
-                <img src="${p.img || 'https://via.placeholder.com/80'}">
+                <img src="${imgSrc}">
                     <p style="font-size:0.8rem; margin-top:5px; font-weight:bold;">${p.name}</p>
                 </div>
-                `).join('');
+                `;
+                }).join('');
             } else {
                 sec.classList.add('hidden');
             }
@@ -3098,16 +3160,12 @@
             localStorage.setItem('oudelle_custom_database', JSON.stringify(database));
         }
 
-
-
-
-
         function renderAdmOrders() {
             const list = document.getElementById('adm-orders-list');
             if (!list) return;
             const orders = database.orders || [];
             if (orders.length === 0) return list.innerHTML = "<p style='padding:20px; text-align:center;'>لا يوجد طلبات مسجلة</p>";
-
+            
             list.innerHTML = orders.map((o, i) => `
                 <div class="order-item-row">
                     <div>
@@ -3141,12 +3199,11 @@
             window.print();
         }
 
+        // --- Mix Editor ---
         function renderAdmMixEditor() {
             const cont = document.getElementById('adm-mix-editor');
             if (!cont) return;
 
-            // Find all mix items
-            let mixes = [];
             for (let cat in database) {
                 if (Array.isArray(database[cat])) {
                     database[cat].forEach((p, i) => { if (p.isMix) mixes.push({ ...p, cat, idx: i }); });
@@ -3189,12 +3246,60 @@
         function saveAdminChanges() {
             if (isCloudActive) {
                 db.collection('app').doc('data').set(database)
-                    .then(() => console.log("🔥 Saved to Cloud"))
-                    .catch((e) => alert("خطأ في الحفظ: " + e.message));
+                .then(() => console.log("🔥 Saved to Cloud"))
+                .catch((e) => alert("خطأ في الحفظ: " + e.message));
             } else {
                 localStorage.setItem('oudelle_custom_database', JSON.stringify(database));
             }
         }
+
+        // --- Image Upload Functions ---
+        function handleHomeBgUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const dataUrl = e.target.result;
+                    // Save to localStorage
+                    localStorage.setItem('oudelle_home_bg', dataUrl);
+                    // Apply immediately
+                    document.getElementById('slider-bg').style.backgroundImage = `url(${dataUrl})`;
+                    // Show preview
+                    document.getElementById('home-bg-preview').innerHTML = 
+                        `<img src="${dataUrl}" style="max-width:200px; max-height:150px; border-radius:10px; border:2px solid var(--gold);">
+                         <p style="margin-top:5px; color:green;">✅ تم تحديث صورة الخلفية</p>`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function handleProductImgUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const dataUrl = e.target.result;
+                    // Generate unique filename
+                    const fileName = 'product_' + Date.now() + '_' + file.name;
+                    // Save to localStorage
+                    let uploadedImages = JSON.parse(localStorage.getItem('oudelle_uploaded_images') || '{}');
+                    uploadedImages[fileName] = dataUrl;
+                    localStorage.setItem('oudelle_uploaded_images', JSON.stringify(uploadedImages));
+                    // Auto-fill the image input
+                    document.getElementById('adm-img').value = fileName;
+                    alert('✅ تم رفع الصورة بنجاح! اسم الملف: ' + fileName);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Load saved home background on page load
+        window.addEventListener('load', function() {
+            const savedBg = localStorage.getItem('oudelle_home_bg');
+            if (savedBg) {
+                document.getElementById('slider-bg').style.backgroundImage = `url(${savedBg})`;
+            }
+        });
     </script>
     <div class="admin-trigger" onclick="openAdmin()">⚙️</div>
     <!-- Thermal Receipt Template (Hidden) -->
