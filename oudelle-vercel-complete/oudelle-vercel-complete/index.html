@@ -1,0 +1,3228 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oudélle | المنيو الكامل و InstaPay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        :root {
+            --primary: #07501a;
+            --gold: #b38b2d;
+            --cream: #f4f1e9;
+            --white: #ffffff;
+            --text: #07501a;
+            --bg: #f4f1e9;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            --primary: #4caf50;
+            --gold: #ffd700;
+            --cream: #121212;
+            --white: #1e1e1e;
+            --text: #e0e0e0;
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            transition: 0.3s ease;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Ticker */
+        .ticker-wrap {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 30px;
+            background: var(--gold);
+            overflow: hidden;
+            z-index: 2001;
+        }
+
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            padding-right: 100%;
+            animation: ticker 25s linear infinite;
+            line-height: 30px;
+            color: black;
+            font-weight: bold;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            100% {
+                transform: translate3d(100%, 0, 0);
+            }
+        }
+
+        nav {
+            background: rgba(7, 80, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 10px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 30px;
+            z-index: 2000;
+            box-shadow: var(--shadow);
+            height: 70px;
+        }
+
+        .dark-mode nav {
+            background: rgba(30, 30, 30, 0.95);
+        }
+
+        .logo {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-bar {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            width: 150px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .cart-status {
+            background: var(--gold);
+            color: black;
+            padding: 8px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        #home-page {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .slider-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .hero-content {
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: 'Amiri', serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            margin-bottom: 20px;
+        }
+
+        .hero-btn {
+            background: var(--gold);
+            color: black;
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 0 15px var(--gold);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .tabs-container {
+            position: sticky;
+            top: 100px;
+            z-index: 1000;
+            background: var(--bg);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .cat-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--text);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Thermal Receipt Styles */
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+
+            #thermal-receipt,
+            #thermal-receipt * {
+                visibility: visible;
+            }
+
+            #thermal-receipt {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 80mm;
+                padding: 10px;
+                background: white;
+                color: black;
+                font-family: 'Courier New', Courier, monospace;
+            }
+        }
+
+        #thermal-receipt {
+            display: none;
+        }
+
+        @media screen {
+            #thermal-receipt {
+                display: none !important;
+            }
+        }
+
+        .order-history-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .order-item-row {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-item-row:hover {
+            background: #f9f9f9;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 5%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            /* Ensure badges position correctly */
+        }
+
+        .card h3 {
+            color: var(--text);
+            margin: 10px 0;
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            background: #eee;
+        }
+
+        .price-badge {
+            background: var(--gold);
+            color: black;
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .weight-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: white;
+            color: black;
+        }
+
+        .add-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 40px 0 20px;
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .story-section,
+        .reviews-section {
+            padding: 20px 5%;
+            background: var(--card-bg);
+            margin: 20px 5%;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .review-card {
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px;
+            display: inline-block;
+            width: 300px;
+            text-align: right;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            color: var(--text);
+            padding: 25px;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        footer {
+            background: #111;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .popup-anim {
+            animation: backInDown 0.5s;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .nav-controls {
+                gap: 5px;
+            }
+
+            .search-bar {
+                width: 100px;
+                padding: 5px;
+                font-size: 0.8rem;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Tables Grid */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .table-card {
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+            cursor: pointer;
+        }
+
+        .table-card.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .table-num {
+            font-size: 2.5rem;
+            font-weight: 900;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* InstaPay UI */
+        .ip-btn {
+            background: #07501a;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        /* Admin Dashboard Styles */
+        .admin-trigger {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2002;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            font-size: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .admin-trigger:hover {
+            transform: scale(1.1);
+            background: var(--gold);
+        }
+
+        .admin-modal-content {
+            background: white;
+            color: #333;
+            padding: 30px;
+            border-radius: 25px;
+            width: 95%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .admin-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border: 1px dashed var(--primary);
+        }
+
+        .admin-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+        }
+
+        .admin-input,
+        .admin-select {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 0.9rem;
+        }
+
+        .admin-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .admin-table th {
+            background: var(--primary);
+            color: white;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .status-available {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .status-unavailable {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .admin-tab-btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .admin-tab-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .out-of-stock-badge {
+            background: #666;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .discount-status-badge {
+            background: #ff0000;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            animation: bounceIn 1s infinite alternate;
+        }
+
+        .sold-out {
+            opacity: 0.7;
+            filter: grayscale(0.5);
+            pointer-events: none;
+        }
+
+        .price-strike-small {
+            text-decoration: line-through;
+            color: #d32f2f;
+            font-size: 0.9rem;
+            margin-left: 8px;
+            font-weight: bold;
+        }
+
+        .old-price-display {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+
+        .discount-tag {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #ff0000;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 900;
+            z-index: 100;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            animation: superPulse 1.2s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes superPulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+            }
+
+            50% {
+                transform: scale(1.15);
+                box-shadow: 0 0 20px rgba(255, 0, 0, 1);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+            }
+        }
+
+        /* Engagement Features Styles */
+        .lucky-trigger {
+            position: fixed;
+            bottom: 20px;
+            left: 80px;
+            background: var(--gold);
+            color: black;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 2002;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            font-size: 1.5rem;
+            animation: bounceIn 1.5s infinite alternate;
+        }
+
+
+
+        .voucher-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #ddd;
+        }
+
+        .voucher-input-group {
+            display: flex;
+            gap: 5px;
+        }
+
+
+
+        .vip-badge {
+            background: linear-gradient(45deg, #b38b2d, #ffd700);
+            color: black;
+            padding: 2px 10px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            font-weight: 900;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px #ffd700;
+            }
+
+            50% {
+                box-shadow: 0 0 20px #ffd700;
+            }
+
+            100% {
+                box-shadow: 0 0 5px #ffd700;
+            }
+        }
+
+        @keyframes superPulseV2 {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px #ff0000;
+            }
+
+            50% {
+                transform: scale(1.2);
+                box-shadow: 0 0 25px #ff0000;
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px #ff0000;
+            }
+        }
+
+        .discount-badge-v2 {
+            position: absolute !important;
+            top: 10px !important;
+            right: 10px !important;
+            background: #ff0000 !important;
+            color: #ffffff !important;
+            padding: 6px 14px !important;
+            border-radius: 10px !important;
+            font-size: 1rem !important;
+            font-weight: 900 !important;
+            z-index: 10000 !important;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8) !important;
+            border: 2px solid white !important;
+            animation: superPulseV2 1s infinite ease-in-out !important;
+            display: block !important;
+            direction: rtl !important;
+        }
+
+        /* Ramadan Mode Styles */
+        body.ramadan-mode {
+            background: #0b1120;
+            color: #efc050;
+        }
+
+        body.ramadan-mode .card {
+            background: #1a2639;
+            border: 1px solid #cfa935;
+        }
+
+        body.ramadan-mode .admin-modal-content {
+            background: #fff !important;
+            color: #000 !important;
+            border: 4px solid #cfa935;
+        }
+
+        body.ramadan-mode .admin-input,
+        body.ramadan-mode .admin-select {
+            background: #fff !important;
+            color: #000 !important;
+            border: 1px solid #ccc !important;
+        }
+
+        body.ramadan-mode .admin-modal-content h2,
+        body.ramadan-mode .admin-modal-content h3,
+        body.ramadan-mode .admin-modal-content label {
+            color: #07501a !important;
+        }
+
+
+
+        /* Force High Contrast for ALL text in Ramadan Mode */
+        body.ramadan-mode,
+        body.ramadan-mode .card,
+        body.ramadan-mode .card *,
+        body.ramadan-mode p,
+        body.ramadan-mode span,
+        body.ramadan-mode label,
+        body.ramadan-mode .modal-content *,
+        body.ramadan-mode .tabs-container *,
+        body.ramadan-mode .admin-section *,
+        body.ramadan-mode .story-section p {
+            color: #e2e8f0 !important;
+        }
+
+        body.ramadan-mode h1,
+        body.ramadan-mode h2,
+        body.ramadan-mode h3,
+        body.ramadan-mode .section-title,
+        body.ramadan-mode .price-badge,
+        body.ramadan-mode .old-price-display,
+        body.ramadan-mode .price-strike-small {
+            color: var(--gold) !important;
+        }
+
+        body.ramadan-mode .price-badge {
+            background: rgba(251, 191, 36, 0.1) !important;
+            border: 1px solid var(--gold) !important;
+            font-weight: bold !important;
+        }
+
+        body.ramadan-mode input,
+        body.ramadan-mode textarea,
+        body.ramadan-mode select {
+            background: #1e293b !important;
+            color: #fff !important;
+            border: 1px solid var(--gold) !important;
+        }
+
+        body.ramadan-mode .card {
+            background: #1e293b !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+            border: 1px solid var(--gold) !important;
+        }
+
+        body.ramadan-mode .story-section,
+        body.ramadan-mode .story-section p,
+        body.ramadan-mode .review-card,
+        body.ramadan-mode .review-card *,
+        body.ramadan-mode footer,
+        body.ramadan-mode footer p,
+        body.ramadan-mode footer a,
+        body.ramadan-mode .designer-credit,
+        body.ramadan-mode .designer-credit a,
+        body.ramadan-mode b {
+            color: #e2e8f0 !important;
+        }
+
+        body.ramadan-mode .review-card {
+            background: #1e293b !important;
+            border: 1px solid var(--gold) !important;
+        }
+
+        body.ramadan-mode footer a {
+            text-decoration: underline !important;
+            color: var(--gold) !important;
+        }
+
+        body.ramadan-mode .tab {
+            color: #cbd5e1 !important;
+            background: #1e293b !important;
+            border: 1px solid #475569 !important;
+        }
+
+        body.ramadan-mode .tab.active {
+            background: var(--gold) !important;
+            color: #000 !important;
+            border-color: var(--gold) !important;
+        }
+
+        body.ramadan-mode .tab.active * {
+            color: #000 !important;
+        }
+
+        body.ramadan-mode .story-section {
+            background: #1e293b !important;
+            border: 1px solid var(--gold) !important;
+            padding: 20px !important;
+            border-radius: 15px !important;
+        }
+
+        body.ramadan-mode .vip-badge {
+            background: linear-gradient(45deg, #fbbf24, #d97706) !important;
+            color: #000 !important;
+        }
+
+        /* --- Ramadan Compass & Atmospheric Styles --- */
+        #ramadan-compass {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            background: rgba(30, 41, 59, 0.9);
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: compassGlow 2s infinite alternate;
+        }
+
+        body.ramadan-mode #ramadan-compass {
+            display: flex;
+        }
+
+        @keyframes compassGlow {
+            from {
+                box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+            }
+
+            to {
+                box-shadow: 0 0 25px rgba(251, 191, 36, 0.6);
+            }
+        }
+
+        .compass-dial {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px dashed var(--gold);
+            opacity: 0.3;
+            animation: rotateDial 20s linear infinite;
+        }
+
+        @keyframes rotateDial {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .iftar-timer {
+            font-size: 0.7rem;
+            color: var(--gold);
+            text-align: center;
+            line-height: 1.1;
+            font-weight: bold;
+        }
+
+        .compass-icon {
+            font-size: 1.2rem;
+            margin-bottom: 2px;
+        }
+
+        /* Day/Night Transition Overlay */
+        #sky-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            transition: background 2s ease;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        body.ramadan-mode.night-time {
+            background: #020617 !important;
+        }
+
+        /* --- Order Success Overlay & Box Animation --- */
+        #order-success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .success-content {
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .success-title {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        /* 3D Box Styling */
+        .box-wrapper {
+            width: 200px;
+            height: 150px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-20deg) rotateY(20deg);
+            margin: 50px auto;
+            animation: boxEntry 1s ease forwards;
+        }
+
+        .box-part {
+            position: absolute;
+            background: #1e4d2b;
+            /* Luxury Green */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: bold;
+            color: white;
+            font-size: 1.5rem;
+            backface-visibility: hidden;
+        }
+
+        .box-front {
+            width: 200px;
+            height: 100px;
+            transform: translateZ(50px);
+        }
+
+        .box-back {
+            width: 200px;
+            height: 100px;
+            transform: rotateY(180deg) translateZ(50px);
+        }
+
+        .box-right {
+            width: 100px;
+            height: 100px;
+            transform: rotateY(90deg) translateZ(100px);
+            left: 50px;
+        }
+
+        .box-left {
+            width: 100px;
+            height: 100px;
+            transform: rotateY(-90deg) translateZ(100px);
+            left: 50px;
+        }
+
+        .box-bottom {
+            width: 200px;
+            height: 100px;
+            transform: rotateX(-90deg) translateZ(50px);
+            top: 50px;
+        }
+
+        .box-top {
+            width: 200px;
+            height: 105px;
+            background: #1e4d2b;
+            position: absolute;
+            top: 0;
+            transform-origin: top;
+            transform: rotateX(90deg) translateZ(100px);
+            animation: closeBoxTop 2s cubic-bezier(0.4, 0, 0.2, 1) forwards 1s;
+        }
+
+        .box-branding {
+            font-family: 'serif';
+            font-style: italic;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Golden Ribbon */
+        .ribbon {
+            position: absolute;
+            background: var(--gold);
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+            opacity: 0;
+            z-index: 10;
+        }
+
+        .ribbon-v {
+            width: 20px;
+            height: 100%;
+            left: 90px;
+            top: 0;
+            transform: translateZ(51px);
+        }
+
+        .ribbon-h {
+            width: 100%;
+            height: 20px;
+            left: 0;
+            top: 40px;
+            transform: translateZ(51px);
+        }
+
+        .ribbon-animation {
+            animation: tieRibbon 1.5s ease forwards 2.5s;
+        }
+
+        @keyframes closeBoxTop {
+            from {
+                transform: rotateX(-90deg) translateZ(0);
+            }
+
+            to {
+                transform: rotateX(0deg) translateZ(100px);
+            }
+        }
+
+        @keyframes tieRibbon {
+            from {
+                opacity: 0;
+                transform: scale(0) translateZ(51px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateZ(51px);
+            }
+        }
+
+        @keyframes boxEntry {
+            from {
+                opacity: 0;
+                transform: translateY(100px) rotateX(-20deg) rotateY(45deg);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(-20deg) rotateY(20deg);
+            }
+        }
+
+        /* Success Message Styling */
+        .preparing-msg {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            color: #cbd5e1;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards 3.5s;
+        }
+
+        .fallback-btn {
+            background: #25d366;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin-top: 20px;
+            cursor: pointer;
+            opacity: 0;
+            display: none;
+            animation: fadeIn 1s ease forwards 5s;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        #confetti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        body.ramadan-mode .best-sellers-container {
+            background: linear-gradient(135deg, #1e293b, #0f172a) !important;
+            border: 1px solid var(--gold) !important;
+        }
+
+        body.ramadan-mode .admin-trigger,
+        body.ramadan-mode .lucky-trigger {
+            background: var(--gold) !important;
+            color: #000 !important;
+        }
+
+        /* Ramadan Moon/Star Accents */
+        body.ramadan-mode .hero::after {
+            content: "🌙";
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 2rem;
+            filter: drop-shadow(0 0 10px gold);
+            animation: starPulse 3s infinite;
+        }
+
+        /* Best Sellers Section */
+        .best-sellers-container {
+            padding: 20px;
+            background: linear-gradient(90deg, #fffcf0, #fff);
+            margin: 20px 10px;
+            border-radius: 15px;
+            border-right: 5px solid var(--gold);
+        }
+
+        .best-sellers-grid {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 10px 0;
+            scrollbar-width: none;
+        }
+
+        .best-seller-item {
+            min-width: 150px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .best-seller-item img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--gold);
+        }
+
+        /* Gallery Section */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            padding: 20px;
+        }
+
+        .gallery-item {
+            height: 150px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: 0.3s;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Admin Stats Bar */
+        .admin-stats-bar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border-bottom: 3px solid var(--gold);
+        }
+
+        .stat-val {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .reset-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: #dc2626;
+            transform: scale(1.05);
+        }
+
+
+        /* Pre-Order Date/Time Styling */
+        .schedule-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            font-family: inherit;
+        }
+
+        .ramadan-mode .schedule-input {
+            background: #1e293b !important;
+            color: #fff !important;
+            border-color: var(--gold) !important;
+        }
+
+        @keyframes starPulse {
+            0% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+
+            100% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="order-success-overlay">
+        <div id="confetti-container"></div>
+        <div class="success-content">
+            <div class="success-title">شكراً لك! ❤️</div>
+            <div class="box-wrapper">
+                <div class="box-part box-front">
+                    <span class="box-branding">oudélle</span>
+                    <div class="ribbon ribbon-h ribbon-animation"></div>
+                </div>
+                <div class="box-part box-back"></div>
+                <div class="box-part box-left"></div>
+                <div class="box-part box-right"></div>
+                <div class="box-part box-bottom"></div>
+                <div class="box-part box-top">
+                    <!-- Ribbon on top -->
+                    <div class="ribbon ribbon-v ribbon-animation"
+                        style="height: 105px; left: 90px; transform: translateZ(1px);"></div>
+                </div>
+            </div>
+            <div class="preparing-msg">جاري تجهيز طلبك وتغليفه بكل حب... 🎁</div>
+            <button id="wa-fallback-btn" class="fallback-btn" onclick="window.location.href=window.pendingWaUrl">إرسال
+                عبر واتساب الآن 🟢</button>
+        </div>
+    </div>
+    <div id="ramadan-compass" onclick="showIftarInfo()">
+        <div class="compass-dial"></div>
+        <div class="compass-icon">🌙</div>
+        <div id="iftar-countdown" class="iftar-timer">جاري الحساب...</div>
+    </div>
+    <div class="ticker-wrap">
+        <div class="ticker">
+            عرض خاص: خصم 10% على جميع الحلويات الشرقية عند الطلب عبر الموقع! | التوصيل مجاني للطلبات فوق 500 ج.م | جرب
+            الكنافة النابلسية الآن!
+        </div>
+    </div>
+
+    <nav>
+        <div class="logo" onclick="showHome()">oudélle</div>
+        <div class="nav-controls">
+            <input type="text" class="search-bar" placeholder="ابحث عن صنف..." onkeyup="searchProducts(this.value)">
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            <div id="cart-btn" class="cart-status" onclick="showCart()">🛒 <span id="cart-count">0</span></div>
+        </div>
+    </nav>
+
+    <section id="home-page">
+        <div class="slider-bg" id="slider-bg" style="background: linear-gradient(135deg, #07501a, #b38b2d);"></div>
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title animate__animated animate__fadeInDown">oudélle</h1>
+            <p class="animate__animated animate__fadeInUp">Desserts & More - Since 1951</p>
+            <button class="hero-btn animate__animated animate__zoomIn" onclick="showMenu()">تصفح القائمة
+                الكاملة</button>
+        </div>
+    </section>
+
+    <section id="menu-page" style="display: none; padding-top: 80px;">
+        <div class="tabs-container">
+            <div class="cat-tabs" id="category-tabs-container">
+                <!-- Categories will be rendered here dynamically -->
+            </div>
+        </div>
+        <div id="best-sellers-section" class="best-sellers-container hidden">
+            <h3 style="margin-bottom:10px; font-size:1.1rem;">🔥 الأكثر مبيعاً هذا الأسبوع</h3>
+            <div id="best-sellers-grid" class="best-sellers-grid"></div>
+        </div>
+
+        <div id="product-grid" class="grid animate__animated animate__fadeIn"></div>
+
+        <h2 class="section-title">معرض الصور 📸</h2>
+        <div id="customer-gallery" class="gallery-container"></div>
+
+        <h2 class="section-title">قصتنا</h2>
+        <div class="story-section">
+            <p style="font-size: 1.1rem; line-height: 1.8;">
+                بدأت رحلة oudélle عام 1951 بشغف صناعة الحلويات الشرقية الأصيلة.
+                نتوارث سر الصنعة جيلاً بعد جيل، لنقدم لكم طعماً لا ينسى يجمع بين العراقة والحداثة.
+            </p>
+        </div>
+
+        <h2 class="section-title">آراء العملاء</h2>
+        <div class="reviews-section">
+            <div class="review-card">
+                ⭐⭐⭐⭐⭐<br>"أحلى بسبوسة أكلتها في حياتي، تسلم الأيادي!"<br><b>- أحمد محمد</b>
+            </div>
+            <div class="review-card">
+                ⭐⭐⭐⭐⭐<br>"الكنافة النابلسية بتوصل سخنة وطعمها تحفة."<br><b>- سارة علي</b>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 oudélle Desserts. All rights reserved.</p>
+            <div style="margin-top: 10px;">
+                <a href="https://maps.app.goo.gl/6DHVYyxcTM3BcHKL8" target="_blank">📍 موقعنا على الخريطة</a> |
+                <a href="tel:+201023728183">📞 اتصل بنا</a>
+            </div>
+            <div style="margin-top: 15px; font-size: 0.9rem; color: var(--gold);">
+                <span class="designer-credit">Designed by <a href="tel:01025693460"
+                        style="color: white; text-decoration: underline;">Eng. Mohamed Hatem</a></span>
+            </div>
+        </footer>
+    </section>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <h2 style="text-align: center; margin-bottom: 20px;">فاتورة طلبك 🛍️</h2>
+            <div id="cart-list"></div>
+            <div style="background: var(--cream); padding: 15px; border-radius: 20px; margin: 20px 0;">
+                <label>طريقة الاستلام:</label>
+                <select id="del-method" class="weight-select" onchange="toggleFields()">
+                    <option value="delivery">دليفري (توصيل)</option>
+                    <option value="pickup">استلام من الفرع</option>
+                    <option value="dinein">داخل المطعم</option>
+                </select>
+
+                <div id="instapay-ui">
+                    <p style="color: #0d47a1; font-weight: 900; margin-bottom: 5px;">الدفع عبر InstaPay:</p>
+                    <p style="font-size: 1.1rem; color: #333; margin-bottom: 8px;">01091031582</p>
+                    <div style="display: flex; justify-content: center; gap: 8px;">
+                        <button class="ip-btn" onclick="copyNumber()">نسخ الرقم 📋</button>
+                        <a href="https://ipn.eg/S/01091031582" target="_blank" class="ip-btn"
+                            style="background: #2196f3;">فتح التطبيق 📱</a>
+                    </div>
+                    <p style="font-size: 0.75rem; color: #d81b60; margin-top: 8px; font-weight: bold;">( صور الشاشة بعد
+                        التحويل لإرسالها في الواتساب للبدء في تنفيذ الأوردر)</p>
+                </div>
+
+                <div id="dinein-field" class="hidden">
+                    <label>اختر رقم الطاولة:</label>
+                    <div class="tables-grid">
+                        <div class="table-card" onclick="selectTable(1, this)"><span class="table-num">1</span></div>
+                        <div class="table-card" onclick="selectTable(2, this)"><span class="table-num">2</span></div>
+                        <div class="table-card" onclick="selectTable(3, this)"><span class="table-num">3</span></div>
+                        <div class="table-card" onclick="selectTable(4, this)"><span class="table-num">4</span></div>
+                    </div>
+                </div>
+
+                <div id="waiter-field" class="hidden" style="margin-top:10px;">
+                    <button class="ip-btn" style="width:100%; background:var(--gold); color:black;"
+                        onclick="callWaiter()">🔔 نداء للجرسون</button>
+                </div>
+
+                <div class="input-group" id="delivery-field" style="margin-top:10px;">
+                    <label>منطقة التوصيل</label>
+                    <select id="area-select" onchange="updateTotal()">
+                        <!-- Dynamic areas will be loaded here -->
+                    </select>
+                </div>
+                <input type="text" id="c-addr" class="weight-select" placeholder="العنوان بالتفصيل">
+
+                <div id="phone-field">
+                    <input type="tel" id="c-phone" class="weight-select" placeholder="رقم الهاتف">
+                </div>
+
+                <div id="schedule-toggle-container" class="hidden" style="margin-top:15px; text-align:center;">
+                    <button class="ip-btn"
+                        style="width:100%; background:#fff3e0; color:#d84315; border:1px solid #ffe0b2;"
+                        onclick="toggleSchedule()">🗓️ حجز موعد استلام مخصوص؟</button>
+                </div>
+
+                <div id="schedule-field" class="hidden"
+                    style="margin-top:10px; border-top:1px dashed #ccc; padding-top:10px;">
+                    <label style="font-size:0.85rem; color:#d84315;">🗓️ موعد استلام هو / توقيت الأوردر:</label>
+                    <div style="display:flex; gap:10px; margin-top:5px;">
+                        <input type="date" id="order-date" class="schedule-input" style="flex:1;">
+                        <input type="time" id="order-time" class="schedule-input" style="flex:1;">
+                    </div>
+                </div>
+            </div>
+            <input type="text" id="c-name" class="weight-select" placeholder="الاسم بالكامل">
+
+            <div class="voucher-section">
+                <label style="font-size:0.8rem;">هل لديك كود خصم؟</label>
+                <div class="voucher-input-group">
+                    <input type="text" id="v-code" class="admin-input" style="flex:1;" placeholder="كود الخصم">
+                    <button class="admin-btn" style="padding:5px 15px;" onclick="applyVoucher()">تطبيق</button>
+                </div>
+                <p id="v-msg" style="font-size:0.75rem; margin-top:5px;"></p>
+            </div>
+
+            <h3 id="total-price" style="text-align: center; color: var(--gold); margin-bottom: 10px; margin-top:15px;">
+            </h3>
+            <button class="add-btn" style="background:#25D366;" onclick="checkout()">تأكيد وإرسال للمطعم ✅</button>
+            <button onclick="showCart()"
+                style="width:100%; background:none; border:none; color:red; margin-top:15px; cursor:pointer;">إغلاق</button>
+        </div>
+    </div>
+
+    <div id="adminModal" class="modal">
+        <div class="admin-modal-content">
+            <h2
+                style="text-align: center; margin-bottom: 20px; color: var(--primary); border-bottom: 2px solid var(--gold); padding-bottom: 15px;">
+                لوحة تحكم أصناف oudélle ⚙️</h2>
+
+            <div class="admin-stats-bar">
+                <div class="stat-card">
+                    <p style="font-size:0.8rem; color:#666;">إجمالي الطلبات</p>
+                    <div id="stat-orders" class="stat-val">0</div>
+                </div>
+                <div class="stat-card">
+                    <p style="font-size:0.8rem; color:#666;">إجمالي المبيعات</p>
+                    <div id="stat-revenue" class="stat-val">0 ج</div>
+                </div>
+                <div class="stat-card" style="background: #fee2e2; border-color: #f87171;">
+                    <p style="font-size:0.8rem; color:#b91c1c;">تسلسل الطلبات</p>
+                    <button class="reset-btn" onclick="resetOrderCounter()">تصفير العدّاد 🔄</button>
+                </div>
+            </div>
+
+            <div class="admin-section" style="background:#fff3e0; border:1px solid #ffe0b2;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h3 style="margin:0;">🌙 وضع رمضان</h3>
+                    <button id="ramadan-toggle-btn" class="admin-btn" style="width:auto; padding:5px 20px;"
+                        onclick="toggleRamadanMode()">تفعيل</button>
+                </div>
+            </div>
+
+            <div class="admin-section">
+                <h3>إضافة منتج جديد</h3>
+                <div class="admin-form">
+                    <select id="adm-cat" class="admin-select">
+                        <!-- Options rendered dynamically -->
+                    </select>
+                    <input type="text" id="adm-name" class="admin-input" placeholder="اسم المنتج">
+                    <input type="number" id="adm-price" class="admin-input" placeholder="السعر بعد الخصم (الحالي)">
+                    <input type="number" id="adm-old-price" class="admin-input" placeholder="السعر قبل الخصم (اختياري)">
+                    <select id="adm-type" class="admin-select">
+                        <option value="kg">بالكيلو</option>
+                        <option value="piece">بالقطعة</option>
+                    </select>
+                    <textarea id="adm-type-custom" class="admin-input"
+                        style="height:80px; resize:vertical; padding:8px;"
+                        placeholder="أطعم المنتج (اكتب كل طعم في سطر منفصل)"></textarea>
+                    <input type="text" id="adm-img" class="admin-input" placeholder="اسم ملف الصورة">
+                    <input type="hidden" id="adm-edit-mode-index" value="-1">
+                    <button id="adm-action-btn" class="admin-btn" onclick="admAddProduct()">إضافة المنتج</button>
+                    <button id="adm-cancel-edit-btn" class="admin-btn"
+                        style="background:#f44336; display:none; margin-top:5px;" onclick="admCancelEdit()">إلغاء
+                        التعديل</button>
+                </div>
+            </div>
+
+
+            <div class="admin-section">
+                <h3>📂 إدارة الأقسام</h3>
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <input type="text" id="adm-new-cat-name" class="admin-input" style="flex:2;"
+                        placeholder="اسم القسم الجديد (مثلاً: نواعم العيد)">
+                    <input type="text" id="adm-new-cat-id" class="admin-input" style="flex:1;"
+                        placeholder="ID (انجليزي فقط: eid)">
+                    <button class="admin-btn" style="width:auto; padding:5px 15px;"
+                        onclick="admAddCategory()">إضافة</button>
+                </div>
+                <div id="adm-cats-list" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
+            </div>
+
+            <div class="admin-tabs" id="adm-category-tabs"></div>
+
+            <div style="overflow-x: auto; margin-top: 15px;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>الصورة</th>
+                            <th>الاسم</th>
+                            <th>السعر الجديد (بعد الخصم)</th>
+                            <th>السعر القديم (قبل الخصم)</th>
+                            <th>النوع</th>
+                            <th>الخيارات</th>
+                            <th>الأكثر مبيعاً</th>
+                            <th>الحالة</th>
+                            <th>إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adm-items-table"></tbody>
+                </table>
+            </div>
+
+            <div class="admin-section" style="margin-top:20px; border-top:2px solid var(--gold); padding-top:20px;">
+                <h3>⚙️ الإعدادات العامة</h3>
+                <div class="admin-form">
+                    <label>رقم واتساب استقبال الطلبات (بدون +):</label>
+                    <input type="text" id="adm-wa-num" class="admin-input" placeholder="2010XXXXXXXX">
+                    <label>نص الشريط المتحرك (Ticker):</label>
+                    <textarea id="adm-ticker-text" class="admin-input" style="height:60px;"></textarea>
+                    <button class="admin-btn" onclick="admSaveSettings()">حفظ الإعدادات العامة</button>
+                </div>
+            </div>
+
+            <div class="admin-section">
+                <h3>🏷️ إدارة أكواد الخصم (Vouchers)</h3>
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <input type="text" id="adm-v-code" class="admin-input" style="flex:2;"
+                        placeholder="كود الخصم (مثلاً: OUD10)">
+                    <input type="number" id="adm-v-perc" class="admin-input" style="flex:1;" placeholder="%">
+                    <button class="admin-btn" style="width:auto; padding:5px 15px;"
+                        onclick="admAddVoucher()">إضافة</button>
+                </div>
+                <div id="adm-vouchers-list" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
+            </div>
+
+            <div class="admin-section">
+                <h3>🚚 إدارة مناطق التوصيل والأسعار</h3>
+                <div style="display:flex; gap:10px; margin-bottom:10px;">
+                    <input type="text" id="adm-area-name" class="admin-input" style="flex:2;" placeholder="اسم المنطقة">
+                    <input type="number" id="adm-area-price" class="admin-input" style="flex:1;" placeholder="السعر">
+                    <button class="admin-btn" style="width:auto; padding:5px 15px;"
+                        onclick="admAddArea()">إضافة</button>
+                </div>
+                <div id="adm-areas-list" style="display:flex; flex-wrap:wrap; gap:10px;"></div>
+            </div>
+
+            <div class="admin-section">
+                <h3>📜 سجل الطلبات الأخير (آخر 50 طلب)</h3>
+                <div class="order-history-list" id="adm-orders-list"></div>
+            </div>
+
+            <div class="admin-section">
+                <h3>🍱 محرر البوكس المشكل (علي كيفك)</h3>
+                <div id="adm-mix-editor"
+                    style="background:#fff; padding:15px; border-radius:10px; border:1px solid #ddd;">
+                    <!-- Mix Editor UI here -->
+                </div>
+            </div>
+
+            <div class="admin-section">
+                <h3>إدارة معرض الصور</h3>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="adm-gallery-url" class="admin-input" style="flex:1;"
+                        placeholder="رابط الصورة (URL)">
+                    <button class="admin-btn" style="width:auto; padding:5px 15px;"
+                        onclick="admAddGallery()">إضافة</button>
+                </div>
+                <div id="adm-gallery-list" style="display:flex; gap:5px; margin-top:10px; overflow-x:auto;"></div>
+            </div>
+
+            <button onclick="document.getElementById('adminModal').style.display='none'"
+                style="width:100%; background:none; border:none; color:red; margin-top:20px; cursor:pointer; font-weight:bold;">إغلاق
+                لوحة التحكم</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs (Compat for simple HTML usage) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+    <script>
+        // --- FIREBASE CONFIGURATION (PASTE YOUR KEYS HERE) ---
+        const firebaseConfig = {
+            // apiKey: "AIzaSy...",
+            // authDomain: "oudelle-app.firebaseapp.com",
+            // projectId: "oudelle-app",
+            // storageBucket: "oudelle-app.appspot.com",
+            // messagingSenderId: "...",
+            // appId: "..."
+        };
+
+        let db, auth;
+        let isCloudActive = false;
+
+        try {
+            if (firebaseConfig.apiKey) {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                auth = firebase.auth();
+                isCloudActive = true;
+                console.log("🔥 Cloud Mode Active (Firebase)");
+            } else {
+                console.warn("⚠️ Firebase Config missing! Running in LocalStorage Mode.");
+            }
+        } catch (e) {
+            console.error("Firebase Init Error:", e);
+        }
+        let WHATSAPP_NUM = "201023728183";
+        let TICKER_TEXT = "عرض خاص: خصم 10% على جميع الحلويات الشرقية عند الطلب عبر الموقع! | التوصيل مجاني للطلبات فوق 500 ج.م | جرب الكنافة النابلسية الآن!";
+        let cart = JSON.parse(localStorage.getItem('oudelle_cart')) || [];
+        let selectedTableNumber = null;
+        let currentCat = 'oriental';
+        let admCurrentCat = 'oriental';
+
+        let database = {
+            oriental: [
+                { name: "بسبوسه ساده", price: 175, type: 'kg', img: "بسبوسه ساده.jpg" },
+                { name: "بسبوسه مكسرات", price: 240, type: 'kg', img: "بسبوسه مكسرات.jpg" },
+                { name: "بسبوسه قشطه", price: 220, type: 'kg', img: "بسبوسه قشطه.jpg" },
+                { name: "بسبوسه نوتيلا", price: 215, type: 'kg', img: "بسبوسه نوتيلا.jpg" },
+                { name: "بسبوسه لوتس", price: 215, type: 'kg', img: "بسبوسه لوتس.jpg" },
+                { name: "جلاش ساده", price: 170, type: 'kg', img: "جلاش ساده.jpg" },
+                { name: "جلاش كريمه", price: 200, type: 'kg', img: "جلاش كريمه.jpg" },
+                { name: "جلاش برمه ساده", price: 230, type: 'kg', img: "جلاش برم.jpg" },
+                { name: "بقلاوه تركي مكسرات", price: 400, type: 'kg', img: "بقلاوه تركي.jpg" },
+                { name: "بقلاوه تركي فستق حلبي", price: 650, type: 'kg', img: "بقلاوه تركي فسدق.jpg" },
+                { name: "بقلاوه قشطه", price: 650, type: 'kg', img: "بقلاوه قشطه.jpg" },
+                { name: "شكلمه سمن بلدي", price: 280, type: 'kg', img: "شكلامه سمنه بلدي.jpg" },
+                { name: "مدلعه سمن بلدي", price: 220, type: 'kg', img: "مدلعه سمنه.jpg" },
+                { name: "حبيبه مكسرات", price: 220, type: 'kg', img: "حبيبه مكسرات.jpg" },
+                { name: "رموش الست", price: 220, type: 'kg', img: "رموش الست.jpg" },
+                { isMix: true, title: "علي كيفك (شرقي مشكل)", source: 'oriental' }
+            ],
+            nabulsia: [
+                { name: "كنافه نابلسيه جبنه ", price: 35, type: 'piece', img: "unnamed.jpg" },
+                { name: "كنافه نابلسيه جبنه (وسط)", price: 50, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه جبنه (كبيرة)", price: 120, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه جبنه (عائلية)", price: 200, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه جبنة (جامبو)", price: 250, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه قشطه ", price: 35, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه قشطه (وسط)", price: 50, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه قشطه (كبيرة)", price: 120, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه قشطه (عائلية)", price: 200, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه قشطه (جامبو)", price: 250, type: 'piece', img: "" }
+            ],
+            dairy: [
+                { name: "رز بلبن ساده", price: 25, type: 'piece', img: "" },
+                { name: "قشطوطه (لوتس/نوتيلا/بستاشيو)", price: 75, type: 'piece', img: "" },
+                { name: "ترلتشي (كراميل/شوكلت)", price: 75, type: 'piece', img: "" },
+                { name: "محلايه شاميه", price: 75, type: 'piece', img: "" },
+                { name: "ام علي مكسرات", price: 75, type: 'piece', img: "" },
+                { name: "طاجن نوتيلا", price: 75, type: 'piece', img: "" },
+                { name: "مولتن كيك", price: 55, type: 'piece', img: "" },
+                { name: "شوكلت بول", price: 55, type: 'piece', img: "" }
+            ],
+            jordanian: [
+                { name: "برازق سمسم", price: 30, type: 'piece', img: "" },
+                { name: "معمول بالتمر", price: 300, type: 'piece', img: "" },
+                { name: "غريبه", price: 300, type: 'piece', img: "" },
+                { name: "معمول سميط عين جمل", price: 300, type: 'piece', img: "" },
+                { name: "ليالي لبنان", price: 175, type: 'kg', img: "" },
+                { name: "حبيبه", price: 175, type: 'kg', img: "" },
+                { name: "وربات", price: 175, type: 'kg', img: "" },
+                { name: "نموره", price: 175, type: 'kg', img: "" },
+                { name: "عيش السرايا", price: 175, type: 'kg', img: "" },
+                { name: "دحدح", price: 175, type: 'kg', img: "" },
+                { name: "هريسه", price: 175, type: 'kg', img: "" }
+            ],
+            Westernsweets: [
+                { name: "تورته مقاس 18", price: 200, type: 'piece', img: "" },
+                { name: "تورته مقاس 20", price: 250, type: 'piece', img: "" },
+                { name: "تورته مقاس 22", price: 300, type: 'piece', img: "" },
+                { name: "تورته مقاس 24", price: 350, type: 'piece', img: "" },
+                { name: "تورته مقاس 26", price: 400, type: 'piece', img: "" },
+                { name: "تورته مقاس 28", price: 450, type: 'piece', img: "" },
+                { name: "تشيز كيك", price: 45, type: 'piece', img: "" },
+                { name: "تشيز كيك اسباني", price: 80, type: 'piece', img: "" },
+                { name: "فادج", price: 55, type: 'piece', img: "" },
+                { name: "مولتن كيك", price: 55, type: 'piece', img: "" },
+                { name: "دونتس", price: 40, type: 'piece', img: "" },
+                { name: "سويس رول", price: 100, type: 'piece', img: "" },
+                { name: "دسبسيتو كبير", price: 60, type: 'piece', img: "" },
+                { name: "دسبسيتو صغير", price: 40, type: 'piece', img: "" },
+                { name: "انجلش كيك", price: 175, type: 'piece', img: "" },
+                { name: "بفترول", price: 75, type: 'piece', img: "" },
+                { name: "سينبون", price: 45, type: 'piece', img: "" },
+                { name: "تارت", price: 48, type: 'piece', img: "" },
+                { name: "اكلير", price: 45, type: 'piece', img: "" },
+                { name: "جاتو كلاسيك", price: 25, type: 'piece', img: "" },
+            ],
+            offers: [
+                { name: "عرض 1", price: 100, type: 'piece', img: "" },
+                { name: "عرض 2", price: 200, type: 'piece', img: "" },
+            ],
+            drinks: [
+                { name: "مياه معدنية", price: 10, type: 'piece', img: "" },
+                { name: "شاي كارك صغير", price: 15, type: 'piece', img: "" },
+                { name: "شاي كارك كبير", price: 25, type: 'piece', img: "" },
+                { name: "قهوة تركي", price: 20, type: 'piece', img: "" },
+                { name: "قهوه ساده", price: 20, type: 'piece', img: "" },
+            ],
+        };
+
+        function loadDatabase() {
+            const storedDB = JSON.parse(localStorage.getItem('oudelle_custom_database'));
+            if (storedDB) {
+                // Full state replacement for accurate sync (handles deletions)
+                database = storedDB;
+            }
+
+            // Ensure defaults exist (in case of partial DB or new fields)
+            ensureDefaults();
+        }
+
+
+
+        // Initial load
+        if (isCloudActive) {
+            // Cloud Mode: Listen to Firestore
+            db.collection('app').doc('data').onSnapshot((doc) => {
+                if (doc.exists) {
+                    console.log("🔥 Data received from Cloud");
+                    database = doc.data();
+
+                    // Re-apply defaults if needed
+                    ensureDefaults();
+
+                    // Full UI Sync
+                    renderCategories();
+                    render(currentCat);
+                    renderBestSellers();
+                    renderGallery();
+                    syncUI();
+
+                    if (document.getElementById('adminModal').style.display === 'flex') {
+                        renderAdmCategoriesList();
+                        renderAdmTable();
+                    }
+                } else {
+                    // First run: Create doc if empty
+                    console.log("🔥 Creating initial Cloud Database...");
+                    saveAdminChanges();
+                }
+            });
+        } else {
+            // Local Mode: Standard Load
+            loadDatabase();
+        }
+
+        function ensureDefaults() {
+            if (!database.categories) {
+                database.categories = [
+                    { id: 'oriental', name: 'الشرقي' },
+                    { id: 'nabulsia', name: 'قسم النابلسية' },
+                    { id: 'dairy', name: 'قسم الألبان' },
+                    { id: 'jordanian', name: 'القسم الأردني' },
+                    { id: 'Westernsweets', name: 'الحلويات الغربية' },
+                    { id: 'offers', name: 'عروض خاصة' },
+                    { id: 'drinks', name: 'المشروبات' }
+                ];
+            }
+            if (!database.stats) database.stats = { totalOrders: 0, totalRevenue: 0 };
+            if (!database.gallery) database.gallery = [];
+            if (!database.orders) database.orders = [];
+            if (!database.settings) database.settings = { whatsapp: WHATSAPP_NUM, ticker: TICKER_TEXT };
+            if (!database.vouchers) database.vouchers = { 'OUDELLE10': 0.10, 'WELCOME': 0.05, 'OFF50': 0.50, 'OUDELLE2026': 0.10 };
+            if (!database.delivery) database.delivery = [
+                { name: "نجع حمادي", price: 30 },
+                { name: "خارج نجع حمادي", price: 40 },
+                { name: "هو", price: 50 },
+                { name: "مدينه الالمونيوم", price: 60 },
+                { name: "قريه بركه", price: 70 }
+            ];
+        }
+
+        // Cross-tab Synchronization (Local Mode Only)
+        window.addEventListener('storage', (e) => {
+            if (!isCloudActive && e.key === 'oudelle_custom_database') {
+                console.log("🔄 change detected, syncing...");
+                loadDatabase();
+
+                // Re-render Client UI
+                renderCategories();
+                // If the current category was deleted, switch to default
+                if (!database.categories.find(c => c.id === currentCat)) {
+                    currentCat = database.categories[0]?.id || 'oriental';
+                }
+                render(currentCat);
+                renderBestSellers();
+                renderGallery();
+                syncUI(); // Updates theme, atmosphere, etc.
+
+                // Update Admin UI if open
+                if (document.getElementById('adminModal').style.display === 'flex') {
+                    renderAdmCategoriesList(); // Sync category list in admin
+                    renderAdmTabs();           // Sync category tabs in admin
+                    // If admCurrentCat deleted, switch
+                    if (!database.categories.find(c => c.id === admCurrentCat)) {
+                        admCurrentCat = database.categories[0]?.id || 'oriental';
+                        renderAdmTable();
+                    } else {
+                        renderAdmTable();
+                    }
+                    renderAdmVouchers();
+                    renderAdmAreas();
+                    renderAdmMixEditor();
+                    renderAdmOrders();
+                }
+            }
+        });
+
+
+        // Global State & Shared Variables
+        let isRamadanMode = localStorage.getItem('oudelle_ramadan') === 'true';
+
+        // Init
+        syncUI();
+        initRamadanAtmosphere();
+        if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        const slides = ["unnamed (1).jpg", "unnamed.jpg"];
+        let slideIdx = 0;
+        setInterval(() => {
+            slideIdx = (slideIdx + 1) % slides.length;
+            const el = document.getElementById('slider-bg');
+            if (el) el.style.backgroundImage = `url("${slides[slideIdx]}")`;
+        }, 5000);
+
+        function showMenu() { document.getElementById('home-page').style.display = 'none'; document.getElementById('menu-page').style.display = 'block'; window.scrollTo(0, 0); render('oriental', document.querySelector('.tab')); }
+        function showHome() { document.getElementById('home-page').style.display = 'flex'; document.getElementById('menu-page').style.display = 'none'; }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        function searchProducts(q) {
+            if (!q) return render(currentCat);
+            let html = "";
+            let found = false;
+            for (let cat in database) {
+                database[cat].forEach((p, i) => {
+                    const isSoldOut = p.inStock === false;
+                    const hasDiscount = p.isDiscount || (p.oldPrice && parseFloat(p.oldPrice) > parseFloat(p.price));
+                    const discountHTML = hasDiscount ? `<div class="discount-status-badge">عرض خاص / خصم 🏷️</div>` : "";
+                    const img = p.img || `https://via.placeholder.com/300x200?text=${p.name}`;
+                    const vipHTML = p.isVIP ? `<div class="vip-badge">الشيف يرشحه 👑</div>` : "";
+
+                    if (!p.isMix && p.name.includes(q)) {
+                        found = true;
+
+                        const optionsHTML = (p.options && p.options.length)
+                            ? `<select id="so-${cat}-${i}" class="weight-select" ${isSoldOut ? 'disabled' : ''}>${p.options.map(o => `<option value="${o}">${o}</option>`).join('')}</select>`
+                            : "";
+
+                        if (p.type === 'kg') {
+                            if (!p.price) return;
+                            let displayPrice = (p.price / 4).toFixed(2);
+                            let oldDisplayPrice = p.oldPrice ? (p.oldPrice / 4).toFixed(2) : null;
+                            const oldPriceHTML = oldDisplayPrice ? `<div class="old-price-display"><span class="price-strike-small">${oldDisplayPrice} ج</span></div>` : "";
+
+                            let weightOptions = `<option value="0.25">250جم</option><option value="0.5">500جم</option><option value="1" selected>1 كيلو</option>`;
+                            html += `<div class="card ${isSoldOut ? 'sold-out' : ''}" style="position:relative;"><img src="${img}"><h3>${p.name}</h3>` +
+                                `${discountHTML}${oldPriceHTML}<span class="price-badge">${displayPrice} ج/ربع كيلو</span>` +
+                                `${optionsHTML}<select id="s-w-${cat}-${i}" class="weight-select">${weightOptions}</select><button class="add-btn" onclick="addKgSearch('${cat}',${i})">إضافة</button></div>`;
+                        } else {
+                            if (!p.price) return;
+                            const oldPriceHTML = p.oldPrice ? `<div class="old-price-display"><span class="price-strike-small">${p.oldPrice} ج</span></div>` : "";
+                            html += `<div class="card ${isSoldOut ? 'sold-out' : ''}" style="position:relative;"><img src="${img}"><h3>${p.name}</h3>` +
+                                `${discountHTML}${oldPriceHTML}<span class="price-badge">${p.price} ج.م</span>` +
+                                `${optionsHTML}<input type="number" id="s-q-${cat}-${i}" class="weight-select" value="1" min="1"><button class="add-btn" onclick="addPieceSearch('${cat}',${i})">إضافة</button></div>`;
+                        }
+                    }
+                });
+            }
+            document.getElementById('product-grid').innerHTML = found ? html : "<p style='text-align:center; width:100%;'>لا توجد نتائج</p>";
+        }
+
+        function addKgSearch(cat, i) {
+            const p = database[cat][i], s = document.getElementById(`s-w-${cat}-${i}`);
+            const opt = document.getElementById(`so-${cat}-${i}`);
+            const variation = opt ? opt.value : "";
+            addToCart(p.name, parseFloat(s.value) * p.price, `${s.options[s.selectedIndex].text}${variation ? ' - ' + variation : ''}`);
+        }
+        function addPieceSearch(cat, i) {
+            const p = database[cat][i], q = document.getElementById(`s-q-${cat}-${i}`).value;
+            const opt = document.getElementById(`so-${cat}-${i}`);
+            const variation = opt ? opt.value : "";
+            addToCart(p.name, q * p.price, `${q} قطعة${variation ? ' - ' + variation : ''}`);
+        }
+
+        function addMix(title) {
+            let subs = document.querySelectorAll('.mix-sub'), details = [], total = 0;
+            subs.forEach(s => {
+                if (s.value > 0) {
+                    let w = parseFloat(s.value), p = parseFloat(s.dataset.price);
+                    details.push(`${s.dataset.name} (${w}جم)`);
+                    total += (w / 1000) * p;
+                }
+            });
+            if (details.length) { addToCart(`${title}: ${details.join(' + ')}`, total); alert("تمت إضافة العلبة"); }
+        }
+
+        function addKg(cat, i) {
+            const p = database[cat][i], s = document.getElementById(`w-${cat}-${i}`);
+            const opt = document.getElementById(`o-${cat}-${i}`);
+            const variation = opt ? opt.value : "";
+            addToCart(p.name, parseFloat(s.value) * p.price, `${s.options[s.selectedIndex].text}${variation ? ' - ' + variation : ''}`);
+        }
+        function addPiece(cat, i) {
+            const p = database[cat][i], q = document.getElementById(`q-${cat}-${i}`).value;
+            const opt = document.getElementById(`o-${cat}-${i}`);
+            const variation = opt ? opt.value : "";
+            addToCart(p.name, q * p.price, `${q} قطعة${variation ? ' - ' + variation : ''}`);
+        }
+
+        function addToCart(name, price, titleSuffix = "") {
+            cart.push({ name: name + (titleSuffix ? ` (${titleSuffix})` : ""), price: price });
+            saveCart();
+            updateUI();
+            const btn = document.getElementById('cart-btn');
+            btn.classList.add('animate__animated', 'animate__rubberBand');
+            setTimeout(() => btn.classList.remove('animate__animated', 'animate__rubberBand'), 1000);
+        }
+
+        function updateUI() { document.getElementById('cart-count').innerText = cart.length; }
+        function saveCart() { localStorage.setItem('oudelle_cart', JSON.stringify(cart)); }
+
+        function showCart() {
+            const m = document.getElementById('cartModal');
+            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+            if (m.style.display === 'flex') {
+                document.getElementById('cart-list').innerHTML = cart.map((it, i) => `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;">${it.name} <span>${it.price.toFixed(2)} ج <button onclick="remove(${i})" style="color:red; border:none; background:none; cursor:pointer;">🗑️</button></span></div>`).join('');
+                updateTotal();
+            }
+        }
+
+        function remove(i) { cart.splice(i, 1); saveCart(); updateUI(); showCart(); }
+
+        function copyNumber() { navigator.clipboard.writeText("01023728183"); alert("تم نسخ الرقم!"); }
+        function selectTable(n, el) {
+            document.querySelectorAll('.table-card').forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+            el.classList.add('animate__animated', 'animate__pulse');
+            setTimeout(() => el.classList.remove('animate__animated', 'animate__pulse'), 1000);
+            selectedTableNumber = n;
+        }
+
+        // --- Admin Dashboard Logic ---
+        function openAdmin() {
+            if (isCloudActive) {
+                const user = auth.currentUser;
+                if (user) {
+                    // Already logged in
+                    showAdminPanel();
+                } else {
+                    // Need to login
+                    const email = prompt("Email:");
+                    const pass = prompt("Password:");
+                    if (email && pass) {
+                        auth.signInWithEmailAndPassword(email, pass)
+                            .then(() => {
+                                alert("تم تسجيل الدخول بنجاح");
+                                showAdminPanel();
+                            })
+                            .catch((e) => alert("خطأ في الدخول: " + e.message));
+                    }
+                }
+            } else {
+                // Local Mode Fallback
+                const pass = prompt("يرجى إدخال كلمة المرور:");
+                if (pass === "55555") {
+                    showAdminPanel();
+                } else {
+                    alert("كلمة مرور خاطئة!");
+                }
+            }
+        }
+
+        function showAdminPanel() {
+            document.getElementById('adminModal').style.display = 'flex';
+            renderAdmTabs();
+            renderAdmTable();
+            renderAdmGallery();
+            renderAdmVouchers();
+            renderAdmAreas();
+            renderStats();
+            renderAdmOrders();
+            renderAdmMixEditor();
+            if (database.settings) {
+                document.getElementById('adm-wa-num').value = database.settings.whatsapp;
+                document.getElementById('adm-ticker-text').value = database.settings.ticker;
+            }
+            document.getElementById('ramadan-toggle-btn').innerText = isRamadanMode ? "إبطال" : "تفعيل";
+        }
+
+        function resetOrderCounter() {
+            if (confirm("⚠️ هل أنت متأكد من تصفير تسلسل الطلبات؟ الطلب القادم سيبدأ برقم #1.")) {
+                localStorage.setItem('oudelle_order_counter', 0);
+                alert("✅ تم تصفير العداد بنجاح!");
+            }
+        }
+
+        function renderAdmTabs() {
+            const tabsDiv = document.getElementById('adm-category-tabs');
+            if (tabsDiv && database.categories) {
+                tabsDiv.innerHTML = database.categories.map(c => `
+                    <button class="admin-tab-btn ${c.id === admCurrentCat ? 'active' : ''}" 
+                            onclick="switchAdmCat('${c.id}')">
+                        ${c.name}
+                    </button>
+                `).join('');
+            }
+        }
+
+        function switchAdmCat(cat) {
+            admCurrentCat = cat;
+            renderAdmTabs();
+
+            renderAdmTable();
+            render(cat);
+        }
+
+        function syncUI() {
+            // Update Global Settings
+            if (database.settings) {
+                WHATSAPP_NUM = database.settings.whatsapp;
+                TICKER_TEXT = database.settings.ticker;
+                const tickerEl = document.querySelector('.ticker');
+                if (tickerEl) tickerEl.innerText = TICKER_TEXT;
+            }
+
+            // Render Client Views (ensure immediate local update)
+            renderCategories();
+            render(currentCat);
+            renderBestSellers();
+            renderGallery();
+
+            renderStats(); // Update admin stats if open
+            const h1 = document.querySelector('h1');
+            const logo = document.querySelector('.logo');
+            if (isRamadanMode) {
+                document.body.classList.add('ramadan-mode');
+                if (h1) h1.innerText = "oudélle ✨ رمضان كريم";
+                if (logo) logo.innerText = "oudélle ✨ رمضان كريم";
+            } else {
+                document.body.classList.remove('ramadan-mode');
+                if (h1) h1.innerText = "oudélle";
+                if (logo) logo.innerText = "oudélle";
+            }
+        }
+
+        // Sync Categories
+        renderCategories();
+        renderAdmCategoriesList();
+
+        if (isRamadanMode) {
+            initRamadanAtmosphere();
+        } else {
+            document.body.classList.remove('night-time');
+            const sky = document.getElementById('sky-overlay');
+            if (sky) sky.innerHTML = '';
+        }
+
+        const searchVal = document.querySelector('.search-bar').value;
+        if (searchVal) {
+            searchProducts(searchVal);
+        } else {
+            render(currentCat);
+            renderBestSellers();
+            renderGallery();
+        }
+
+        // --- Ramadan Atmosphere Logic ---
+        function initRamadanAtmosphere() {
+            if (!isRamadanMode) return;
+            const sky = document.getElementById('sky-overlay');
+            if (sky && sky.children.length === 0) {
+                for (let i = 0; i < 80; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'star';
+                    star.style.left = Math.random() * 100 + '%';
+                    star.style.top = Math.random() * 100 + '%';
+                    const size = Math.random() * 2 + 1;
+                    star.style.width = size + 'px';
+                    star.style.height = size + 'px';
+                    star.style.animation = `twinkle ${2 + Math.random() * 3}s infinite alternate`;
+                    sky.appendChild(star);
+                }
+            }
+            updateAtmosphere();
+            if (!window.ramadanInterval) {
+                window.ramadanInterval = setInterval(updateAtmosphere, 1000);
+            }
+        }
+
+        function updateAtmosphere() {
+            if (!isRamadanMode) {
+                if (window.ramadanInterval) {
+                    clearInterval(window.ramadanInterval);
+                    window.ramadanInterval = null;
+                }
+                return;
+            }
+            const now = new Date();
+            const maghrib = new Date();
+            maghrib.setHours(18, 15, 0); // Estimated Iftar for Naga Hammadi
+            const diff = maghrib - now;
+            const timer = document.getElementById('iftar-countdown');
+            const stars = document.querySelectorAll('.star');
+            const compass = document.getElementById('ramadan-compass');
+
+            if (diff > 0) {
+                const hours = Math.floor(diff / 3600000);
+                const mins = Math.floor((diff % 3600000) / 60000);
+                const secs = Math.floor((diff % 60000) / 1000);
+                timer.innerHTML = `${hours}h ${mins}m<br>على المغرب`;
+                const twoHours = 2 * 60 * 60 * 1000;
+                if (diff < twoHours) {
+                    const progress = 1 - (diff / twoHours);
+                    if (progress > 0.5) document.body.classList.add('night-time');
+                    stars.forEach(s => s.style.opacity = progress.toFixed(2));
+                }
+            } else {
+                timer.innerHTML = "صوماً مقبولاً<br>وإفطاراً شهياً";
+                document.body.classList.add('night-time');
+                stars.forEach(s => s.style.opacity = '1');
+                if (compass) compass.style.borderColor = "#4ade80";
+            }
+        }
+
+        function showIftarInfo() {
+            alert("بوصلة أوديل الرمضانية ✨\nتقوم بحساب موعد الإفطار في نجع حمادي وتنبيهك باقتراب وقت المغرب!");
+        }
+
+        // --- Advanced Engagement Features Logic ---
+        let appliedDiscount = 0;
+        const validVouchers = { 'OUDELLE10': 0.10, 'WELCOME': 0.05, 'OFF50': 0.50, 'OUDELLE2026': 0.10 };
+
+        function surpriseMe() {
+            const allProducts = [];
+            for (let cat in database) {
+                if (database[cat]) {
+                    database[cat].forEach(p => { if (!p.isMix && p.inStock !== false) allProducts.push({ ...p, cat }); });
+                }
+            }
+            if (allProducts.length === 0) return;
+            const randomP = allProducts[Math.floor(Math.random() * allProducts.length)];
+
+            // Highlight the product
+            showMenu();
+            render(randomP.cat);
+            alert(`✨ جربنا نختارلك: ${randomP.name}! ✨\nإيه رأيك؟`);
+
+            // Scroll to it
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach(c => {
+                    if (c.innerText.includes(randomP.name)) {
+                        c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        c.style.boxShadow = "0 0 30px var(--gold)";
+                        setTimeout(() => c.style.boxShadow = "var(--shadow)", 3000);
+                    }
+                });
+            }, 500);
+        }
+
+        function applyVoucher() {
+            const code = document.getElementById('v-code').value.toUpperCase();
+            const msg = document.getElementById('v-msg');
+            const vouchers = database.vouchers || {};
+            if (vouchers[code]) {
+                appliedDiscount = vouchers[code];
+                msg.innerText = `✅ تم تطبيق خصم ${(appliedDiscount * 100)}%`;
+                msg.style.color = "green";
+                updateTotal();
+            } else {
+                appliedDiscount = 0;
+                msg.innerText = "❌ كود غير صحيح";
+                msg.style.color = "red";
+                updateTotal();
+            }
+        }
+
+        function callWaiter() {
+            if (!selectedTableNumber) return alert("يرجى اختيار رقم الطاولة أولاً");
+            const text = `🔔 *طلب مساعدة*\\n*طاولة رقم:* ${selectedTableNumber}\\nالعميل يطلب الجرسون.`;
+            window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(text)}`);
+        }
+
+
+        function render(cat, btn) {
+            currentCat = cat;
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.remove('active');
+                if (t.getAttribute('onclick')?.includes(`'${cat}'`)) t.classList.add('active');
+            });
+
+            let html = "";
+            let itemsWithIndex = database[cat]
+                .map((p, index) => ({ ...p, index }))
+                .sort((a, b) => (a.isMix === b.isMix ? 0 : a.isMix ? 1 : -1));
+
+            if (itemsWithIndex.length === 0) {
+                document.getElementById('product-grid').innerHTML = "<p style='text-align:center; width:100%; padding:20px;'>لا توجد أصناف حالياً في هذا القسم</p>";
+                return;
+            }
+
+            itemsWithIndex.forEach((p) => {
+                const i = p.index;
+                const isSoldOut = p.inStock === false;
+                const isVIP = p.isVIP || false;
+                const hasDiscount = p.isDiscount || (p.oldPrice && parseFloat(p.oldPrice) > parseFloat(p.price));
+                const discountHTML = hasDiscount ? `<div class="discount-status-badge">عرض خاص / خصم 🏷️</div>` : "";
+                let img = p.img || `https://via.placeholder.com/300x200?text=${p.name}`;
+
+                const vipHTML = isVIP ? `<div class="vip-badge">الشيف يرشحه 👑</div>` : "";
+
+
+                if (p.isMix) {
+                    const sourceItems = p.contents ? p.contents.map(name => {
+                        for (let c in database) {
+                            let found = database[c].find(x => x.name === name);
+                            if (found) return found;
+                        }
+                        return null;
+                    }).filter(x => x) : database[p.source].filter(x => !x.isMix);
+
+                    html += `<div class="card ${isSoldOut ? 'sold-out' : ''}" style="grid-column: 1/-1; background: var(--primary); color: white; position:relative;">${discountHTML}${vipHTML}<h3 style="color: white;">${p.title}</h3>` +
+                        sourceItems.map(sub => `<div style="display:flex; justify-content:space-between; padding:5px; color: white;">${sub.name}<input type="number" class="mix-sub" data-name="${sub.name}" data-price="${sub.price}" style="width:60px" placeholder="جم"></div>`).join('') + `<button class="hero-btn" style="box-shadow:none; margin-top:10px; font-size:1rem; color: white; border: 1px solid white;" onclick="addMix('${p.title}')" ${isSoldOut ? 'disabled' : ''}>${isSoldOut ? 'غير متوفر حالياً' : 'إضافة'}</button></div>`;
+                } else {
+                    const optionsHTML = (p.options && p.options.length)
+                        ? `<select id="o-${cat}-${i}" class="weight-select" ${isSoldOut ? 'disabled' : ''}>${p.options.map(o => `<option value="${o}">${o}</option>`).join('')}</select>`
+                        : "";
+
+                    if (p.type === 'kg') {
+                        let displayPrice = (p.price / 4).toFixed(2);
+                        let oldDisplayPrice = p.oldPrice ? (p.oldPrice / 4).toFixed(2) : null;
+                        const oldPriceHTML = oldDisplayPrice ? `<div class="old-price-display"><span class="price-strike-small">${oldDisplayPrice} ج</span></div>` : "";
+                        let unit = 'ج/ربع كيلو';
+                        let weightOptions = `<option value="0.25">250جم</option><option value="0.5">500جم</option><option value="1" selected>1 كيلو</option>`;
+                        html += `<div class="card ${isSoldOut ? 'sold-out' : ''}" style="position:relative;">${vipHTML}<img src="${img}"><h3>${p.name}</h3>` +
+                            (isSoldOut ? `<span class="out-of-stock-badge">غير متوفر حالياً</span>` : `${discountHTML}${oldPriceHTML}<span class="price-badge">${displayPrice} ${unit}</span>`) +
+                            `${optionsHTML}<select id="w-${cat}-${i}" class="weight-select" ${isSoldOut ? 'disabled' : ''}>${weightOptions}</select><button class="add-btn" onclick="addKg('${cat}',${i})" ${isSoldOut ? 'disabled' : ''}>${isSoldOut ? 'غير متوفر' : 'إضافة'}</button></div>`;
+                    } else {
+                        const oldPriceHTML = p.oldPrice ? `<div class="old-price-display"><span class="price-strike-small">${p.oldPrice} ج</span></div>` : "";
+                        html += `<div class="card ${isSoldOut ? 'sold-out' : ''}" style="position:relative;">${vipHTML}<img src="${img}"><h3>${p.name}</h3>` +
+                            (isSoldOut ? `<span class="out-of-stock-badge">غير متوفر حالياً</span>` : `${discountHTML}${oldPriceHTML}<span class="price-badge">${p.price} ج.م</span>`) +
+                            `${optionsHTML}<input type="number" id="q-${cat}-${i}" class="weight-select" value="1" min="1" ${isSoldOut ? 'disabled' : ''}><button class="add-btn" onclick="addPiece('${cat}',${i})" ${isSoldOut ? 'disabled' : ''}>${isSoldOut ? 'غير متوفر' : 'إضافة'}</button></div>`;
+                    }
+                }
+            });
+            document.getElementById('product-grid').innerHTML = html;
+        }
+
+        // Update checkout to show progress and reset discount
+        function checkout() {
+            const name = document.getElementById('c-name').value, meth = document.getElementById('del-method').value;
+            if (!name) return alert("الاسم مطلوب");
+            if (meth !== 'dinein' && !confirm("هل قمت بالتحويل وتصوير لقطة الشاشة؟")) return;
+
+            let orderNum = localStorage.getItem('oudelle_order_counter') || 0;
+            orderNum = parseInt(orderNum) + 1;
+            localStorage.setItem('oudelle_order_counter', orderNum);
+
+            // --- Structured WhatsApp Template ---
+            let text = `🌟 *طلب جديد من أوديل* 🌟\n`;
+            text += `------------------------------------------\n`;
+            text += `📦 *رقم الأوردر: #${orderNum}* 📦\n`;
+            text += `------------------------------------------\n\n`;
+
+            text += `👤 *بيانات العميل:*\n`;
+            text += `• الاسم: ${name}\n`;
+            if (meth !== 'dinein') {
+                text += `• الهاتف: ${document.getElementById('c-phone').value}\n`;
+            }
+            text += `\n`;
+
+            text += `📍 *تفاصيل الطلب:*\n`;
+            const methAr = (meth === 'delivery') ? 'توصيل للمنزل 🏠' : (meth === 'pickup' ? 'استلام من الفرع 🥯' : 'داخل المطعم 🍽️');
+            text += `• النوع: ${methAr}\n`;
+
+            if (meth === 'dinein') {
+                text += `• الطاولة: ${selectedTableNumber}\n`;
+            } else {
+                text += `• الدفع: InstaPay ✅\n`;
+                if (meth === 'delivery') {
+                    text += `• العنوان: ${document.getElementById('c-addr').value}\n`;
+                }
+            }
+
+            const ordDate = document.getElementById('order-date').value;
+            const ordTime = document.getElementById('order-time').value;
+            if (ordDate || ordTime) {
+                text += `• الموعد: ${ordDate || 'اليوم'} في ${ordTime || 'أقرب وقت'}\n`;
+            }
+            text += `\n`;
+
+            text += `🧁 *الأصناف المطلوبة:*\n`;
+            text += cart.map(it => `• ${it.name} — ${it.price.toFixed(2)} ج`).join('\n');
+            text += `\n\n`;
+
+            text += `💰 *الحساب النهائي:*\n`;
+            const subtotal = cart.reduce((s, it) => s + it.price, 0);
+            text += `• الإجمالي: ${subtotal.toFixed(2)} ج\n`;
+            if (appliedDiscount > 0) {
+                text += `• الخصم: ${(appliedDiscount * 100)}%\n`;
+            }
+
+            if (meth === 'delivery') {
+                const shipping = parseInt(document.getElementById('area-select').value);
+                text += `• التوصيل: ${shipping} ج\n`;
+            }
+
+            text += `\n💵 *المطلوب دفعه: ${document.getElementById('total-price').innerText}* 💵\n`;
+            text += `------------------------------------------\n`;
+            text += `شكراً لاختياركم أوديل! ❤️✨`;
+
+            database.stats.totalOrders++;
+            database.stats.totalRevenue += subtotal;
+
+            const orderDetails = {
+                num: orderNum,
+                name: name,
+                phone: document.getElementById('c-phone').value,
+                addr: document.getElementById('c-addr').value,
+                meth: meth,
+                table: selectedTableNumber,
+                items: JSON.parse(JSON.stringify(cart)),
+                subtotal: subtotal,
+                discount: appliedDiscount,
+                shipping: (meth === 'delivery') ? parseInt(document.getElementById('area-select').value) : 0,
+                total: parseFloat(document.getElementById('total-price').innerText.replace(/[^0-9.]/g, '')),
+                date: new Date().toLocaleString('ar-EG'),
+                scheduled: { date: document.getElementById('order-date').value, time: document.getElementById('order-time').value }
+            };
+            database.orders.unshift(orderDetails);
+            if (database.orders.length > 50) database.orders.pop();
+
+            saveAdminChanges();
+
+            const waUrl = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(text)}`;
+            showOrderAnimation(waUrl);
+
+            // Show Simulation
+            showCart(); // close cart
+            cart = []; localStorage.removeItem('oudelle_cart'); renderCart(); // Clear cart after order
+        }
+
+        function showOrderAnimation(url) {
+            const overlay = document.getElementById('order-success-overlay');
+            const confettiCont = document.getElementById('confetti-container');
+            overlay.style.display = 'flex';
+
+            // Create luxurious particles (gold/white)
+            confettiCont.innerHTML = '';
+            for (let i = 0; i < 50; i++) {
+                const p = document.createElement('div');
+                p.style.position = 'absolute';
+                p.style.width = Math.random() * 8 + 4 + 'px';
+                p.style.height = p.style.width;
+                p.style.background = Math.random() > 0.5 ? '#fbbf24' : '#ffffff';
+                p.style.borderRadius = '50%';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = '-10%';
+                p.style.opacity = Math.random();
+                p.style.transition = `all ${2 + Math.random() * 3}s linear`;
+                confettiCont.appendChild(p);
+
+                setTimeout(() => {
+                    p.style.top = '110%';
+                    p.style.left = (parseFloat(p.style.left) + (Math.random() * 20 - 10)) + '%';
+                    p.style.transform = `rotate(${Math.random() * 360}deg)`;
+                }, 100);
+            }
+
+            // Redirect after animation stages (approx 5s)
+            window.pendingWaUrl = url;
+            const fallbackBtn = document.getElementById('wa-fallback-btn');
+
+            setTimeout(() => {
+                fallbackBtn.style.display = 'inline-block';
+                window.location.href = url;
+            }, 5500);
+
+            // Hide overlay after return (or after a long timeout)
+            setTimeout(() => {
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    overlay.style.opacity = '1';
+                }, 1000);
+            }, 8000);
+        }
+
+        function updateTotal() {
+            const subtotal = cart.reduce((s, it) => s + it.price, 0);
+            const areaSel = document.getElementById('area-select');
+            let shipping = (document.getElementById('del-method').value === 'delivery' && areaSel) ? parseInt(areaSel.value) : 0;
+            const total = (subtotal + shipping) * (1 - appliedDiscount);
+            document.getElementById('total-price').innerText = `الإجمالي: ${total.toFixed(2)} ج.م`;
+        }
+
+        function toggleFields() {
+            const m = document.getElementById('del-method').value;
+            document.getElementById('dinein-field').classList.toggle('hidden', m !== 'dinein');
+            document.getElementById('waiter-field').classList.toggle('hidden', m !== 'dinein');
+            document.getElementById('delivery-field').classList.toggle('hidden', m !== 'delivery');
+            document.getElementById('phone-field').classList.toggle('hidden', m === 'dinein');
+            document.getElementById('instapay-ui').style.display = (m === 'dinein') ? 'none' : 'block';
+
+            // Show scheduling button only for delivery/pickup
+            const showToggle = (m === 'delivery' || m === 'pickup');
+            document.getElementById('schedule-toggle-container').classList.toggle('hidden', !showToggle);
+
+            // Auto-hide schedule fields when changing method
+            document.getElementById('schedule-field').classList.add('hidden');
+
+            updateTotal();
+        }
+
+        function toggleSchedule() {
+            const field = document.getElementById('schedule-field');
+            field.classList.toggle('hidden');
+            if (!field.classList.contains('hidden')) {
+                field.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // --- Admin Enhancements for Advanced Features ---
+        function renderAdmTable() {
+            const tableBody = document.getElementById('adm-items-table');
+            const items = database[admCurrentCat] || [];
+
+            tableBody.innerHTML = items.map((p, index) => `
+                <tr>
+                    <td><img src="${p.img || 'https://via.placeholder.com/50'}" style="width:40px; height:40px; object-fit:cover; border-radius:5px;"></td>
+                    <td>${p.isMix ? p.title : p.name}</td>
+                    <td>
+                        ${p.isMix ? '---' : `<input type="number" value="${p.price}" 
+                                style="width:70px; padding:3px; border:1px solid #ddd; border-radius:5px;"
+                                onchange="admUpdateCurrentPrice('${admCurrentCat}', ${index}, this.value)"> ج`}
+                    </td>
+                    <td>
+                        ${p.isMix ? '---' : `<input type="number" value="${p.oldPrice || ''}"
+                                style="width:70px; padding:3px; border:1px solid #ddd; border-radius:5px;"
+                                onchange="admUpdateOldPrice('${admCurrentCat}', ${index}, this.value)"> ج`}
+                    </td>
+                    <td>${p.isMix ? 'مكس' : (p.type === 'kg' ? 'كيلو' : 'قطعة')}</td>
+                    <td>${p.isMix ? '---' : (p.options && p.options.length ? `(متعدد)` : 'ساده')}</td>
+                    <td>
+                        <button class="admin-btn" style="width:auto; padding:2px 8px; background:${p.isBestSeller ? '#ff9800' : '#ccc'};"
+                                onclick="admToggleBestSeller('${admCurrentCat}', ${index})">🔥 الأكثر</button>
+                        <button class="admin-btn" style="width:auto; padding:2px 8px; background:${p.isVIP ? 'gold' : '#ccc'}; margin-top:3px;"
+                                onclick="admToggleVIP('${admCurrentCat}', ${index})">👑 VIP</button>
+                        <button class="admin-btn" style="width:auto; padding:2px 8px; background:${p.isDiscount ? '#d32f2f' : '#ccc'}; margin-top:3px; color:${p.isDiscount ? 'white' : 'black'};"
+                                onclick="admToggleDiscount('${admCurrentCat}', ${index})">🏷️ خصم</button>
+                        <button class="admin-btn" style="width:auto; padding:2px 8px; background:#2196f3; margin-top:3px; color:white;"
+                                onclick="admEditProduct('${admCurrentCat}', ${index})">✏️ تعديل</button>
+                    </td>
+                    <td>
+                        <button class="admin-btn" style="width:auto; padding:2px 8px; background:${p.inStock !== false ? '#4ade80' : '#ff4444'};"
+                                onclick="admToggleStock('${admCurrentCat}', ${index})">
+                            ${p.inStock !== false ? 'متوفر' : 'منتهي'}
+                        </button>
+                    </td>
+                    <td>
+                        <button class="admin-btn" style="width:auto; padding:2px 8px; background:#ef4444;" 
+                                onclick="admDeleteProduct('${admCurrentCat}', ${index})">حذف</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function admToggleVIP(cat, idx) {
+            database[cat][idx].isVIP = !database[cat][idx].isVIP;
+            saveAdminChanges();
+            renderAdmTable();
+            syncUI();
+        }
+
+        function admToggleStock(cat, index) {
+            database[cat][index].inStock = !(database[cat][index].inStock !== false);
+            saveAdminChanges();
+            renderAdmTable();
+            syncUI();
+        }
+
+        function admDeleteProduct(cat, index) {
+            if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+            database[cat].splice(index, 1);
+            saveAdminChanges();
+            renderAdmTable();
+            syncUI();
+        }
+
+        function admSaveSettings() {
+            const wa = document.getElementById('adm-wa-num').value;
+            const ticker = document.getElementById('adm-ticker-text').value;
+            if (!wa) return alert("يرجى إدخال رقم واتساب");
+            database.settings.whatsapp = wa;
+            database.settings.ticker = ticker;
+            WHATSAPP_NUM = wa;
+            TICKER_TEXT = ticker;
+            const tickerEl = document.querySelector('.ticker');
+            if (tickerEl) tickerEl.innerText = ticker;
+            saveAdminChanges();
+            alert("✅ تم حفظ الإعدادات بنجاح");
+        }
+
+        function renderAdmVouchers() {
+            const list = document.getElementById('adm-vouchers-list');
+            const v = database.vouchers || {};
+            list.innerHTML = Object.entries(v).map(([code, perc]) => `
+                <div style="background:#e0f2fe; padding:5px 10px; border-radius:15px; display:flex; gap:8px; align-items:center; font-size:0.85rem;">
+                    <b>${code}</b> (${perc * 100}%)
+                    <button onclick="admRemoveVoucher('${code}')" style="border:none; background:none; color:red; cursor:pointer;">✖</button>
+                </div>
+            `).join('');
+        }
+
+        function admAddVoucher() {
+            const code = document.getElementById('adm-v-code').value.toUpperCase();
+            const perc = parseFloat(document.getElementById('adm-v-perc').value) / 100;
+            if (!code || isNaN(perc)) return alert("يرجى إدخال بيانات صحيحة");
+            database.vouchers[code] = perc;
+            saveAdminChanges();
+            renderAdmVouchers();
+            document.getElementById('adm-v-code').value = '';
+            document.getElementById('adm-v-perc').value = '';
+        }
+
+        function admRemoveVoucher(code) {
+            delete database.vouchers[code];
+            saveAdminChanges();
+            renderAdmVouchers();
+        }
+
+        function renderAdmAreas() {
+            const list = document.getElementById('adm-areas-list');
+            const areas = database.delivery || [];
+            list.innerHTML = areas.map((a, i) => `
+                <div style="background:#fef3c7; padding:5px 10px; border-radius:15px; display:flex; gap:8px; align-items:center; font-size:0.85rem;">
+                    <b>${a.name}</b> (${a.price}ج)
+                    <button onclick="admRemoveArea(${i})" style="border:none; background:none; color:red; cursor:pointer;">✖</button>
+                </div>
+            `).join('');
+
+            // Update the actual select in cart
+            const select = document.getElementById('area-select');
+            if (select) {
+                select.innerHTML = areas.map(a => `<option value="${a.price}">${a.name}</option>`).join('');
+            }
+        }
+
+        function admAddArea() {
+            const name = document.getElementById('adm-area-name').value;
+            const price = parseInt(document.getElementById('adm-area-price').value);
+            if (!name || isNaN(price)) return alert("يرجى إدخال بيانات صحيحة");
+            database.delivery.push({ name, price });
+            saveAdminChanges();
+            renderAdmAreas();
+            document.getElementById('adm-area-name').value = '';
+            document.getElementById('adm-area-price').value = '';
+        }
+
+        function admRemoveArea(i) {
+            database.delivery.splice(i, 1);
+            saveAdminChanges();
+            renderAdmAreas();
+        }
+
+        function admToggleDiscount(cat, index) {
+            database[cat][index].isDiscount = !database[cat][index].isDiscount;
+            saveAdminChanges();
+            renderAdmTable();
+            syncUI();
+        }
+
+        function admAddProduct() {
+            const cat = document.getElementById('adm-cat').value;
+            const name = document.getElementById('adm-name').value;
+            const price = parseFloat(document.getElementById('adm-price').value);
+            const oldPriceValue = document.getElementById('adm-old-price').value;
+            const oldPrice = oldPriceValue ? parseFloat(oldPriceValue) : null;
+            const type = document.getElementById('adm-type').value;
+            const optionsStr = document.getElementById('adm-type-custom').value;
+            const img = document.getElementById('adm-img').value;
+            const editIndex = parseInt(document.getElementById('adm-edit-mode-index').value);
+
+            if (!name || isNaN(price)) return alert('يرجى إكمال البيانات');
+
+            const options = optionsStr ? optionsStr.split('\n').map(s => s.trim()).filter(s => s) : null;
+
+            if (editIndex >= 0) {
+                // Update Existing
+                const p = database[cat][editIndex];
+                p.name = name;
+                p.price = price;
+                p.oldPrice = oldPrice;
+                p.type = type;
+                p.options = options;
+                p.img = img;
+                alert("✅ تم تعديل المنتج بنجاح");
+            } else {
+                // Add New
+                const newP = { name, price, oldPrice, type, options, img: img || "", inStock: true, isDiscount: false, isVIP: false };
+                if (!database[cat]) database[cat] = [];
+                database[cat].unshift(newP);
+                alert("✅ تم إضافة المنتج بنجاح");
+            }
+
+            saveAdminChanges();
+            admCancelEdit(); // Reset form
+            renderAdmTable();
+            syncUI();
+        }
+
+        function admEditProduct(cat, index) {
+            const p = database[cat][index];
+            if (!p) return;
+
+            document.getElementById('adm-cat').value = cat;
+            document.getElementById('adm-cat').disabled = true;
+            document.getElementById('adm-name').value = p.name;
+            document.getElementById('adm-price').value = p.price;
+            document.getElementById('adm-old-price').value = p.oldPrice || '';
+            document.getElementById('adm-type').value = p.type;
+            document.getElementById('adm-type-custom').value = p.options ? p.options.join('\n') : '';
+            document.getElementById('adm-img').value = p.img || '';
+
+            document.getElementById('adm-edit-mode-index').value = index;
+            document.getElementById('adm-action-btn').innerText = "حفظ التعديلات 💾";
+            document.getElementById('adm-action-btn').style.background = "#2196f3";
+            document.getElementById('adm-cancel-edit-btn').style.display = "inline-block";
+
+            // Scroll to form
+            document.querySelector('.admin-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function admCancelEdit() {
+            document.getElementById('adm-cat').disabled = false;
+            document.getElementById('adm-name').value = '';
+            document.getElementById('adm-price').value = '';
+            document.getElementById('adm-old-price').value = '';
+            document.getElementById('adm-type-custom').value = '';
+            document.getElementById('adm-img').value = '';
+            document.getElementById('adm-edit-mode-index').value = '-1';
+
+            const btn = document.getElementById('adm-action-btn');
+            btn.innerText = "إضافة المنتج";
+            btn.style.background = "var(--primary)";
+            document.getElementById('adm-cancel-edit-btn').style.display = "none";
+        }
+
+        function admUpdateOptions(cat, index, val) {
+            database[cat][index].options = val ? val.split('\n').map(s => s.trim()).filter(s => s) : null;
+            saveAdminChanges();
+            syncUI();
+        }
+
+        function admUpdateOldPrice(cat, index, val) {
+            const v = parseFloat(val);
+            database[cat][index].oldPrice = isNaN(v) ? null : v;
+            saveAdminChanges();
+            syncUI();
+        }
+
+        function admUpdateCurrentPrice(cat, index, val) {
+            const v = parseFloat(val);
+            if (!isNaN(v)) {
+                database[cat][index].price = v;
+                saveAdminChanges();
+                syncUI();
+            }
+        }
+
+        // --- Category Management ---
+        function renderCategories() {
+            const container = document.getElementById('category-tabs-container');
+            if (!container) return;
+            container.innerHTML = (database.categories || []).map(c => `
+                <button class="tab ${c.id === currentCat ? 'active' : ''}" onclick="render('${c.id}', this)">${c.name}</button>
+            `).join('');
+        }
+
+        function renderAdmCategoriesList() {
+            const list = document.getElementById('adm-cats-list');
+            if (!list) return;
+            list.innerHTML = (database.categories || []).map((c, i) => `
+                <div style="background:#e0f2fe; padding:5px 10px; border-radius:15px; display:flex; gap:8px; align-items:center; font-size:0.85rem;">
+                    <b>${c.name}</b>
+                    ${['oriental', 'nabulsia', 'dairy', 'jordanian', 'Westernsweets', 'offers', 'drinks'].includes(c.id) ? '' : `<button onclick="admDeleteCategory(${i})" style="border:none; background:none; color:red; cursor:pointer;">✖</button>`}
+                </div>
+            `).join('');
+
+            // Update Admin Select
+            const sel = document.getElementById('adm-cat');
+            if (sel) {
+                sel.innerHTML = (database.categories || []).map(c => `<option value="${c.id}" ${c.id === admCurrentCat ? 'selected' : ''}>${c.name}</option>`).join('');
+            }
+        }
+
+        function admAddCategory() {
+            const name = document.getElementById('adm-new-cat-name').value;
+            const id = document.getElementById('adm-new-cat-id').value.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (!name || !id) return alert("يرجى إدخال اسم وكود صحيح للقسم");
+            if (database.categories.find(c => c.id === id)) return alert("هذا الكود مستخدم بالفعل");
+
+            database.categories.push({ id, name });
+            database[id] = []; // Initialize empty array for products
+            saveAdminChanges();
+            document.getElementById('adm-new-cat-name').value = '';
+            document.getElementById('adm-new-cat-id').value = '';
+            syncUI();
+            alert("✅ تم إضافة القسم بنجاح");
+        }
+
+        function admDeleteCategory(index) {
+            const cat = database.categories[index];
+            if (!cat) return;
+            if (confirm(`هل أنت متأكد من حذف قسم "${cat.name}" وكل المنتجات بداخله؟`)) {
+                delete database[cat.id]; // Remove products
+                database.categories.splice(index, 1);
+                // Reset current cat if deleted
+                if (currentCat === cat.id) currentCat = database.categories[0].id;
+                if (admCurrentCat === cat.id) admCurrentCat = database.categories[0].id;
+
+                saveAdminChanges();
+                syncUI();
+            }
+        }
+
+        // --- Ramadan, Stats, Gallery Logic ---
+        function toggleRamadanMode() {
+            isRamadanMode = !isRamadanMode;
+            localStorage.setItem('oudelle_ramadan', isRamadanMode);
+            document.getElementById('ramadan-toggle-btn').innerText = isRamadanMode ? "إبطال" : "تفعيل";
+            syncUI();
+        }
+
+        function renderStats() {
+            if (document.getElementById('stat-orders')) {
+                document.getElementById('stat-orders').innerText = database.stats.totalOrders;
+                document.getElementById('stat-revenue').innerText = database.stats.totalRevenue.toFixed(0) + " ج";
+
+                // Top 5 Products by volume (simulated as we don't have order details history, but we can show products with isBestSeller for now)
+                let best = [];
+                for (let cat in database) {
+                    if (Array.isArray(database[cat])) {
+                        database[cat].forEach(p => { if (p.isBestSeller) best.push(p.name); });
+                    }
+                }
+                const topList = best.slice(0, 5).join(', ') || 'لا يوجد حالياً';
+                const revenueCard = document.querySelector('.admin-stats-bar');
+                if (revenueCard && !document.getElementById('top-products-stat')) {
+                    const topDiv = document.createElement('div');
+                    topDiv.id = 'top-products-stat';
+                    topDiv.className = 'stat-card';
+                    topDiv.style.gridColumn = '1 / -1';
+                    topDiv.style.marginTop = '10px';
+                    topDiv.innerHTML = `<p style="font-size:0.8rem; color:#666;">الأكثر تميزاً 🔥</p><div class="stat-val" style="font-size:1.1rem; color:var(--gold);">${topList}</div>`;
+                    revenueCard.appendChild(topDiv);
+                } else if (document.getElementById('top-products-stat')) {
+                    document.getElementById('top-products-stat').querySelector('.stat-val').innerText = topList;
+                }
+            }
+        }
+
+        function admAddGallery() {
+            const url = document.getElementById('adm-gallery-url').value;
+            if (!url) return;
+            database.gallery.push(url);
+            document.getElementById('adm-gallery-url').value = '';
+            saveAdminChanges();
+            renderAdmGallery();
+            syncUI();
+        }
+
+        function admDeleteGallery(i) {
+            database.gallery.splice(i, 1);
+            saveAdminChanges();
+            renderAdmGallery();
+            syncUI();
+        }
+
+        function renderAdmGallery() {
+            const list = document.getElementById('adm-gallery-list');
+            if (list) {
+                list.innerHTML = (database.gallery || []).map((url, i) => `
+            < div style = "position:relative; flex-shrink:0;" >
+                <img src="${url}" style="width:50px; height:50px; object-fit:cover; border-radius:5px;">
+                    <button onclick="admDeleteGallery(${i})" style="position:absolute; top:0; right:0; background:red; color:white; border:none; border-radius:50%; width:18px; height:18px; cursor:pointer; font-size:10px;">×</button>
+                </div>
+        `).join('');
+            }
+        }
+
+        function renderGallery() {
+            const cont = document.getElementById('customer-gallery');
+            if (cont) {
+                cont.innerHTML = (database.gallery || []).map(url => `
+            < div class="gallery-item animate__animated animate__zoomIn" >
+                <img src="${url}" loading="lazy">
+                </div>
+        `).join('');
+            }
+        }
+
+        function admToggleBestSeller(cat, index) {
+            database[cat][index].isBestSeller = !database[cat][index].isBestSeller;
+            saveAdminChanges();
+            renderAdmTable();
+            syncUI();
+        }
+
+        function admToggleVIP(cat, index) {
+            database[cat][index].isVIP = !database[cat][index].isVIP;
+            saveAdminChanges();
+            renderAdmTable();
+            syncUI();
+        }
+
+        function renderBestSellers() {
+            let all = [];
+            for (let cat in database) {
+                if (Array.isArray(database[cat])) {
+                    database[cat].forEach(p => { if (p.isBestSeller) all.push(p); });
+                }
+            }
+            const sec = document.getElementById('best-sellers-section');
+            if (all.length > 0) {
+                sec.classList.remove('hidden');
+                document.getElementById('best-sellers-grid').innerHTML = all.map(p => `
+            <div class="best-seller-item" onclick="showMenu(); document.querySelector('.search-bar').value='${p.name}'; searchProducts('${p.name}')">
+                <img src="${p.img || 'https://via.placeholder.com/80'}">
+                    <p style="font-size:0.8rem; margin-top:5px; font-weight:bold;">${p.name}</p>
+                </div>
+                `).join('');
+            } else {
+                sec.classList.add('hidden');
+            }
+        }
+
+        function admToggleStock(cat, index) {
+            database[cat][index].inStock = !(database[cat][index].inStock !== false);
+            saveAdminChanges();
+            renderAdmTable();
+            syncUI();
+        }
+
+        function admDeleteProduct(cat, index) {
+            if (!confirm('هل أنت متأكد من حذف هذا المنتج؟')) return;
+            database[cat].splice(index, 1);
+            saveAdminChanges();
+            renderAdmTable();
+            syncUI();
+        }
+
+        // --- Order History & Receipts ---
+        function renderAdmOrders() {
+            const list = document.getElementById('adm-orders-list');
+            if (!list) return;
+            const orders = (database.orders || []).slice().reverse().slice(0, 50); // Last 50
+
+            list.innerHTML = orders.map(o => `
+                <div class="order-history-item" style="background:${o.status === 'completed' ? '#e8f5e9' : '#fff3e0'}; padding:10px; border-radius:5px; margin-bottom:5px; border:1px solid #ddd;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <b>#${o.id} - ${o.date}</b>
+                        <span>${o.total} ج</span>
+                    </div>
+                    <div style="font-size:0.85rem; color:#666; margin-top:5px;">${o.items}</div>
+                    <div style="margin-top:5px; display:flex; gap:5px;">
+                        <button class="admin-btn" style="width:auto; padding:2px 8px; font-size:0.8rem;" onclick="admPrintReceipt('${o.id}')">🖨️ طباعة</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function admPrintReceipt(orderId) {
+            const order = database.orders.find(o => o.id == orderId);
+            if (!order) return;
+
+            const receipt = document.getElementById('receipt-template');
+            document.getElementById('rec-date').innerText = order.date;
+            document.getElementById('rec-id').innerText = order.id;
+
+            // Items
+            // Assuming items string "falafel (2), hummus (1)" -> parse or save structured
+            // For now just show string
+            document.getElementById('rec-items').innerHTML = `<div style="border-bottom:1px dashed #000; padding:5px 0;">${order.items.replace(/,/g, '<br>')}</div>`;
+
+            document.getElementById('rec-total').innerText = order.total + " EGP";
+
+            const win = window.open('', '', 'width=300,height=600');
+            win.document.write('<html><head><title>Receipt</title><style>body{font-family:monospace; direction:rtl; text-align:center;}</style></head><body>');
+            win.document.write(receipt.innerHTML);
+            win.document.write('</body></html>');
+            win.document.close();
+            win.focus();
+            win.print();
+            win.close();
+        }
+
+        // --- Mix Editor ---
+        function renderAdmMixEditor() {
+            const container = document.getElementById('adm-mix-editor');
+            if (!container) return;
+
+            // Find Mix Products
+            let mixes = [];
+            for (let c in database) {
+                if (Array.isArray(database[c])) {
+                    database[c].forEach((p, i) => {
+                        if (p.isMix) mixes.push({ cat: c, idx: i, ...p });
+                    });
+                }
+            }
+
+            if (mixes.length === 0) {
+                container.innerHTML = "<p>لا توجد منتجات 'مكس' حالياً.</p>";
+                return;
+            }
+
+            container.innerHTML = mixes.map(m => `
+                <div style="border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px;">
+                    <b>${m.title}</b>
+                    <textarea id="mix-content-${m.cat}-${m.idx}" style="width:100%; height:80px; margin-top:5px; border:1px solid #ddd;" placeholder="مكونات المكس (كل سطر مكون)">${(m.contents || []).join('\n')}</textarea>
+                    <button class="admin-btn" style="width:auto; margin-top:5px;" onclick="admSaveMixContents('${m.cat}', ${m.idx}, document.getElementById('mix-content-${m.cat}-${m.idx}').value)">حفظ المحتويات</button>
+                </div>
+            `).join('');
+        }
+
+        function admSaveMixContents(cat, idx, val) {
+            const contents = val ? val.split('\n').filter(x => x.trim()).map(x => x.trim()) : null;
+            database[cat][idx].contents = contents;
+            saveAdminChanges();
+            alert("✅ تم حفظ محتويات المكس");
+            syncUI();
+        }
+
+        function saveAdminChanges() {
+            localStorage.setItem('oudelle_custom_database', JSON.stringify(database));
+        }
+
+
+
+
+
+        function renderAdmOrders() {
+            const list = document.getElementById('adm-orders-list');
+            if (!list) return;
+            const orders = database.orders || [];
+            if (orders.length === 0) return list.innerHTML = "<p style='padding:20px; text-align:center;'>لا يوجد طلبات مسجلة</p>";
+
+            list.innerHTML = orders.map((o, i) => `
+                <div class="order-item-row">
+                    <div>
+                        <b>#${o.num}</b> | ${o.name} | ${o.total.toFixed(2)}ج
+                        <div style="font-size:0.75rem; color:#666;">${o.date}</div>
+                    </div>
+                    <button class="admin-btn" style="width:auto; padding:5px 10px; background:var(--primary);" onclick="admPrintReceipt(${i})">🖨️ طباعة</button>
+                </div>
+            `).join('');
+        }
+
+        function admPrintReceipt(idx) {
+            const o = database.orders[idx];
+            if (!o) return;
+
+            document.getElementById('receipt-date').innerText = o.date;
+            document.getElementById('receipt-num').innerText = `أوردر رقم #${o.num}`;
+            document.getElementById('receipt-total').innerText = `${o.total.toFixed(2)} ج`;
+            document.getElementById('receipt-items').innerHTML = o.items.map(it => `
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                    <span>${it.name}</span>
+                    <span>${it.price.toFixed(2)}</span>
+                </div>
+            `).join('');
+
+            let clientInfo = `العميل: ${o.name}<br>الهاتف: ${o.phone || '-'}`;
+            if (o.meth === 'delivery') clientInfo += `<br>العنوان: ${o.addr}`;
+            if (o.meth === 'dinein') clientInfo += `<br>الطاولة: ${o.table}`;
+            document.getElementById('receipt-client').innerHTML = clientInfo;
+
+            window.print();
+        }
+
+        function renderAdmMixEditor() {
+            const cont = document.getElementById('adm-mix-editor');
+            if (!cont) return;
+
+            // Find all mix items
+            let mixes = [];
+            for (let cat in database) {
+                if (Array.isArray(database[cat])) {
+                    database[cat].forEach((p, i) => { if (p.isMix) mixes.push({ ...p, cat, idx: i }); });
+                }
+            }
+
+            if (mixes.length === 0) return cont.innerHTML = "لا يوجد أصناف 'مكس' حالياً";
+
+            cont.innerHTML = mixes.map(m => {
+                // All items from source or all items database (better)
+                let allItems = [];
+                for (let cat in database) {
+                    if (Array.isArray(database[cat])) {
+                        database[cat].forEach(p => { if (!p.isMix) allItems.push(p.name); });
+                    }
+                }
+
+                const currentContents = m.contents || [];
+
+                return `
+                    <div style="margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                        <h4>${m.title}</h4>
+                        <p style="font-size:0.8rem; color:#666;">اختر الأصناف التي تظهر داخل المحتوى (طعم في كل سطر):</p>
+                        <textarea id="mix-edit-${m.cat}-${m.idx}" style="width:100%; height:80px; font-size:0.85rem; padding:5px; border-radius:5px;"
+                                  onchange="admSaveMixContents('${m.cat}', ${m.idx}, this.value)">${currentContents.join('\n')}</textarea>
+                        <div style="font-size:0.7rem; color: #999; margin-top:5px;">* اترك النص فارغاً لاستخدام المصدر الافتراضي (${m.source})</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function admSaveMixContents(cat, idx, val) {
+            const contents = val ? val.split('\n').filter(x => x.trim()).map(x => x.trim()) : null;
+            database[cat][idx].contents = contents;
+            saveAdminChanges();
+            alert("✅ تم حفظ محتويات المكس");
+            syncUI();
+        }
+
+        function saveAdminChanges() {
+            if (isCloudActive) {
+                db.collection('app').doc('data').set(database)
+                    .then(() => console.log("🔥 Saved to Cloud"))
+                    .catch((e) => alert("خطأ في الحفظ: " + e.message));
+            } else {
+                localStorage.setItem('oudelle_custom_database', JSON.stringify(database));
+            }
+        }
+    </script>
+    <div class="admin-trigger" onclick="openAdmin()">⚙️</div>
+    <!-- Thermal Receipt Template (Hidden) -->
+    <div id="thermal-receipt">
+        <center>
+            <h2 style="margin:5px 0;">oudélle</h2>
+            <p style="margin:2px 0;">أوديل - Naga Hammadi</p>
+            <p id="receipt-date"></p>
+            <hr>
+            <h3 id="receipt-num"></h3>
+            <hr>
+        </center>
+        <div id="receipt-items"></div>
+        <hr>
+        <div style="display:flex; justify-content:space-between; font-weight:bold;">
+            <span>الإجمالي:</span>
+            <span id="receipt-total"></span>
+        </div>
+        <p id="receipt-client" style="font-size:0.9rem; margin-top:10px;"></p>
+        <center>
+            <hr>
+            <p>شكراً لزيارتكم! ❤️</p>
+        </center>
+    </div>
+
+
+
+
+</body>
+
+</html>
