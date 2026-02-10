@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oudélle | المنيو الكامل و InstaPay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Amiri:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        :root {
+            --primary: #07501a;
+            --gold: #b38b2d;
+            --cream: #f4f1e9;
+            --white: #ffffff;
+            --text: #07501a;
+            --bg: #f4f1e9;
+            --card-bg: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode {
+            --primary: #4caf50;
+            --gold: #ffd700;
+            --cream: #121212;
+            --white: #1e1e1e;
+            --text: #e0e0e0;
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            transition: 0.3s ease;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Ticker */
+        .ticker-wrap {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 30px;
+            background: var(--gold);
+            overflow: hidden;
+            z-index: 2001;
+        }
+
+        .ticker {
+            display: inline-block;
+            white-space: nowrap;
+            padding-right: 100%;
+            animation: ticker 25s linear infinite;
+            line-height: 30px;
+            color: black;
+            font-weight: bold;
+        }
+
+        @keyframes ticker {
+            0% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            100% {
+                transform: translate3d(100%, 0, 0);
+            }
+        }
+
+        nav {
+            background: rgba(7, 80, 26, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 10px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 30px;
+            z-index: 2000;
+            box-shadow: var(--shadow);
+            height: 70px;
+        }
+
+        .dark-mode nav {
+            background: rgba(30, 30, 30, 0.95);
+        }
+
+        .logo {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-bar {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            width: 150px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .cart-status {
+            background: var(--gold);
+            color: black;
+            padding: 8px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        #home-page {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .slider-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-size: cover;
+            background-position: center;
+            transition: background-image 1s ease-in-out;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+
+        .hero-content {
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: 'Amiri', serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            margin-bottom: 20px;
+        }
+
+        .hero-btn {
+            background: var(--gold);
+            color: black;
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 0 15px var(--gold);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .tabs-container {
+            position: sticky;
+            top: 100px;
+            z-index: 1000;
+            background: var(--bg);
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .cat-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 8px 16px;
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--text);
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 5%;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card h3 {
+            color: var(--text);
+            margin: 10px 0;
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            background: #eee;
+        }
+
+        .price-badge {
+            background: var(--gold);
+            color: black;
+            padding: 4px 12px;
+            border-radius: 10px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .weight-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            background: white;
+            color: black;
+        }
+
+        .add-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 40px 0 20px;
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .story-section,
+        .reviews-section {
+            padding: 20px 5%;
+            background: var(--card-bg);
+            margin: 20px 5%;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .review-card {
+            background: var(--bg);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px;
+            display: inline-block;
+            width: 300px;
+            text-align: right;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            color: var(--text);
+            padding: 25px;
+            border-radius: 25px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        footer {
+            background: #111;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--gold);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .popup-anim {
+            animation: backInDown 0.5s;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .nav-controls {
+                gap: 5px;
+            }
+
+            .search-bar {
+                width: 100px;
+                padding: 5px;
+                font-size: 0.8rem;
+            }
+
+            .logo {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* Tables Grid */
+        .tables-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .table-card {
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            background: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+            cursor: pointer;
+        }
+
+        .table-card.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .table-num {
+            font-size: 2.5rem;
+            font-weight: 900;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* InstaPay UI */
+        .ip-btn {
+            background: #07501a;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ticker-wrap">
+        <div class="ticker">
+            عرض خاص: خصم 10% على جميع الحلويات الشرقية عند الطلب عبر الموقع! | التوصيل مجاني للطلبات فوق 500 ج.م | جرب
+            الكنافة النابلسية الآن!
+        </div>
+    </div>
+
+    <nav>
+        <div class="logo" onclick="showHome()">oudélle</div>
+        <div class="nav-controls">
+            <input type="text" class="search-bar" placeholder="ابحث عن صنف..." onkeyup="searchProducts(this.value)">
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            <div id="cart-btn" class="cart-status" onclick="showCart()">🛒 <span id="cart-count">0</span></div>
+        </div>
+    </nav>
+
+    <section id="home-page">
+        <div class="slider-bg" id="slider-bg" style="background-image: url('unnamed (1).jpg');"></div>
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title animate__animated animate__fadeInDown">oudélle</h1>
+            <p class="animate__animated animate__fadeInUp">Desserts & More - Since 1951</p>
+            <button class="hero-btn animate__animated animate__zoomIn" onclick="showMenu()">تصفح القائمة
+                الكاملة</button>
+        </div>
+    </section>
+
+    <section id="menu-page" style="display: none; padding-top: 80px;">
+        <div class="tabs-container">
+            <div class="cat-tabs">
+                <button class="tab active" onclick="render('oriental', this)">قسم الشرقي</button>
+                <button class="tab" onclick="render('nabulsia', this)">قسم النابلسية</button>
+                <button class="tab" onclick="render('dairy', this)">قسم الألبان</button>
+                <button class="tab" onclick="render('jordanian', this)">القسم الأردني</button>
+                <button class="tab" onclick="render('Westernsweets', this)">الحلويات الغربية</button>
+            </div>
+        </div>
+        <div id="product-grid" class="grid animate__animated animate__fadeIn"></div>
+
+        <h2 class="section-title">قصتنا</h2>
+        <div class="story-section">
+            <p style="font-size: 1.1rem; line-height: 1.8;">
+                بدأت رحلة oudélle عام 1951 بشغف صناعة الحلويات الشرقية الأصيلة.
+                نتوارث سر الصنعة جيلاً بعد جيل، لنقدم لكم طعماً لا ينسى يجمع بين العراقة والحداثة.
+            </p>
+        </div>
+
+        <h2 class="section-title">آراء العملاء</h2>
+        <div class="reviews-section">
+            <div class="review-card">
+                ⭐⭐⭐⭐⭐<br>"أحلى بسبوسة أكلتها في حياتي، تسلم الأيادي!"<br><b>- أحمد محمد</b>
+            </div>
+            <div class="review-card">
+                ⭐⭐⭐⭐⭐<br>"الكنافة النابلسية بتوصل سخنة وطعمها تحفة."<br><b>- سارة علي</b>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2026 oudélle Desserts. All rights reserved.</p>
+            <div style="margin-top: 10px;">
+                <a href="https://maps.app.goo.gl/6DHVYyxcTM3BcHKL8" target="_blank">📍 موقعنا على الخريطة</a> |
+                <a href="tel:+201023728183">📞 اتصل بنا</a>
+            </div>
+            <div style="margin-top: 15px; font-size: 0.9rem; color: var(--gold);">
+                <span class="designer-credit">Designed by <a href="tel:01025693460"
+                        style="color: white; text-decoration: underline;">Eng. Mohamed Hatem</a></span>
+            </div>
+        </footer>
+    </section>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <h2 style="text-align: center; margin-bottom: 20px;">فاتورة طلبك 🛍️</h2>
+            <div id="cart-list"></div>
+            <div style="background: var(--cream); padding: 15px; border-radius: 20px; margin: 20px 0;">
+                <label>طريقة الاستلام:</label>
+                <select id="del-method" class="weight-select" onchange="toggleFields()">
+                    <option value="delivery">دليفري (توصيل)</option>
+                    <option value="pickup">استلام من الفرع</option>
+                    <option value="dinein">داخل المطعم</option>
+                </select>
+
+                <div id="instapay-ui">
+                    <p style="color: #0d47a1; font-weight: 900; margin-bottom: 5px;">الدفع عبر InstaPay:</p>
+                    <p style="font-size: 1.1rem; color: #333; margin-bottom: 8px;">01023728183</p>
+                    <div style="display: flex; justify-content: center; gap: 8px;">
+                        <button class="ip-btn" onclick="copyNumber()">نسخ الرقم 📋</button>
+                        <a href="https://ipn.eg/S/01023728183" target="_blank" class="ip-btn"
+                            style="background: #2196f3;">فتح التطبيق 📱</a>
+                    </div>
+                    <p style="font-size: 0.75rem; color: #d81b60; margin-top: 8px; font-weight: bold;">( صور الشاشة بعد
+                        التحويل لإرسالها في الواتساب للبدء في تنفيذ الأوردر)</p>
+                </div>
+
+                <div id="dinein-field" class="hidden">
+                    <label>اختر رقم الطاولة:</label>
+                    <div class="tables-grid">
+                        <div class="table-card" onclick="selectTable(1, this)"><span class="table-num">1</span></div>
+                        <div class="table-card" onclick="selectTable(2, this)"><span class="table-num">2</span></div>
+                        <div class="table-card" onclick="selectTable(3, this)"><span class="table-num">3</span></div>
+                        <div class="table-card" onclick="selectTable(4, this)"><span class="table-num">4</span></div>
+                    </div>
+                </div>
+
+                <div id="delivery-field">
+                    <label>المنطقة:</label>
+                    <select id="area-select" class="weight-select" onchange="updateTotal()">
+                        <option value="30">نجع حمادي</option>
+                        <option value="40">خارج نجع حمادي</option>
+                        <option value="50">هو</option>
+                        <option value="60">مدينه الالمونيوم</option>
+                        <option value="70">قريه بركه</option>
+                    </select>
+                    <input type="text" id="c-addr" class="weight-select" placeholder="العنوان بالتفصيل">
+                </div>
+
+                <div id="phone-field">
+                    <input type="tel" id="c-phone" class="weight-select" placeholder="رقم الهاتف">
+                </div>
+            </div>
+            <input type="text" id="c-name" class="weight-select" placeholder="الاسم بالكامل">
+            <h3 id="total-price" style="text-align: center; color: var(--gold); margin-bottom: 10px;"></h3>
+            <button class="add-btn" style="background:#25D366;" onclick="checkout()">تأكيد وإرسال للمطعم ✅</button>
+            <button onclick="showCart()"
+                style="width:100%; background:none; border:none; color:red; margin-top:15px; cursor:pointer;">إغلاق</button>
+        </div>
+    </div>
+
+    <script>
+        const WHATSAPP_NUM = "201023728183";
+        let cart = JSON.parse(localStorage.getItem('oudelle_cart')) || [];
+        let selectedTableNumber = null;
+        let currentCat = 'oriental';
+
+        const database = {
+            oriental: [
+                { name: "بسبوسه ساده", price: 175, type: 'kg', img: "بسبوسه ساده.jpg" },
+                { name: "بسبوسه مكسرات", price: 240, type: 'kg', img: "بسبوسه مكسرات.jpg" },
+                { name: "بسبوسه قشطه", price: 220, type: 'kg', img: "بسبوسه قشطه.jpg" },
+                { name: "بسبوسه نوتيلا", price: 215, type: 'kg', img: "بسبوسه نوتيلا.jpg" },
+                { name: "بسبوسه لوتس", price: 215, type: 'kg', img: "بسبوسه لوتس.jpg" },
+                { name: "جلاش ساده", price: 170, type: 'kg', img: "جلاش ساده.jpg" },
+                { name: "جلاش كريمه", price: 200, type: 'kg', img: "جلاش كريمه.jpg" },
+                { name: "جلاش برمه ساده", price: 230, type: 'kg', img: "جلاش برم.jpg" },
+                { name: "بقلاوه تركي مكسرات", price: 400, type: 'kg', img: "بقلاوه تركي.jpg" },
+                { name: "بقلاوه تركي فستق حلبي", price: 650, type: 'kg', img: "بقلاوه تركي فسدق.jpg" },
+                { name: "بقلاوه قشطه", price: 650, type: 'kg', img: "بقلاوه قشطه.jpg" },
+                { name: "شكلمه سمن بلدي", price: 280, type: 'kg', img: "شكلامه سمنه بلدي.jpg" },
+                { name: "مدلعه سمن بلدي", price: 220, type: 'kg', img: "مدلعه سمنه.jpg" },
+                { name: "حبيبه مكسرات", price: 220, type: 'kg', img: "حبيبه مكسرات.jpg" },
+                { name: "رموش الست", price: 220, type: 'kg', img: "رموش الست.jpg" },
+                { isMix: true, title: "علي كيفك (شرقي مشكل)", source: 'oriental' }
+            ],
+            nabulsia: [
+                { name: "كنافه نابلسيه جبنه ", price: 35, type: 'piece', img: "unnamed.jpg" },
+                { name: "كنافه نابلسيه جبنه (وسط)", price: 50, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه جبنه (كبيرة)", price: 120, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه جبنه (عائلية)", price: 200, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه جبنة (جامبو)", price: 250, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه قشطه ", price: 35, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه قشطه (وسط)", price: 50, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه قشطه (كبيرة)", price: 120, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه قشطه (عائلية)", price: 200, type: 'piece', img: "" },
+                { name: "كنافه نابلسيه قشطه (جامبو)", price: 250, type: 'piece', img: "" }
+            ],
+            dairy: [
+                { name: "رز بلبن ساده", price: 25, type: 'piece', img: "" },
+                { name: "قشطوطه (لوتس/نوتيلا/بستاشيو)", price: 75, type: 'piece', img: "" },
+                { name: "ترلتشي (كراميل/شوكلت)", price: 75, type: 'piece', img: "" },
+                { name: "محلايه شاميه", price: 75, type: 'piece', img: "" },
+                { name: "ام علي مكسرات", price: 75, type: 'piece', img: "" },
+                { name: "طاجن نوتيلا", price: 75, type: 'piece', img: "" },
+                { name: "مولتن كيك", price: 55, type: 'piece', img: "" },
+                { name: "شوكلت بول", price: 55, type: 'piece', img: "" }
+            ],
+            jordanian: [
+                { name: "برازق سمسم", price: 30, type: 'piece', img: "" },
+                { name: "معمول بالتمر", price: 300, type: 'piece', img: "" },
+                { name: "غريبه", price: 300, type: 'piece', img: "" },
+                { name: "معمول سميط عين جمل", price: 300, type: 'piece', img: "" },
+                { name: "ليالي لبنان", price: 175, type: 'kg', img: "" },
+                { name: "حبيبه", price: 175, type: 'kg', img: "" },
+                { name: "وربات", price: 175, type: 'kg', img: "" },
+                { name: "نموره", price: 175, type: 'kg', img: "" },
+                { name: "عيش السرايا", price: 175, type: 'kg', img: "" },
+                { name: "دحدح", price: 175, type: 'kg', img: "" },
+                { name: "هريسه", price: 175, type: 'kg', img: "" }
+            ],
+            Westernsweets: [
+                { name: "تورته مقاس 18", price: 200, type: 'piece', img: "" },
+                { name: "تورته مقاس 20", price: 250, type: 'piece', img: "" },
+                { name: "تورته مقاس 22", price: 300, type: 'piece', img: "" },
+                { name: "تورته مقاس 24", price: 350, type: 'piece', img: "" },
+                { name: "تورته مقاس 26", price: 400, type: 'piece', img: "" },
+                { name: "تورته مقاس 28", price: 450, type: 'piece', img: "" },
+                { name: "تشيز كيك", price: 45, type: 'piece', img: "" },
+                { name: "تشيز كيك اسباني", price: 80, type: 'piece', img: "" },
+                { name: "فادج", price: 55, type: 'piece', img: "" },
+                { name: "مولتن كيك", price: 55, type: 'piece', img: "" },
+                { name: "دونتس", price: 40, type: 'piece', img: "" },
+                { name: "سويس رول", price: 100, type: 'piece', img: "" },
+                { name: "دسبسيتو كبير", price: 60, type: 'piece', img: "" },
+                { name: "دسبسيتو صغير", price: 40, type: 'piece', img: "" },
+                { name: "انجلش كيك", price: 175, type: 'piece', img: "" },
+                { name: "بفترول", price: 75, type: 'piece', img: "" },
+                { name: "سينبون", price: 45, type: 'piece', img: "" },
+                { name: "تارت", price: 48, type: 'piece', img: "" },
+                { name: "اكلير", price: 45, type: 'piece', img: "" },
+                { name: "جاتو كلاسيك", price: 25, type: 'piece', img: "" },
+            ],
+        };
+
+        // Init
+        updateUI();
+        if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark-mode');
+
+        const slides = ["unnamed (1).jpg", "unnamed.jpg"];
+        let slideIdx = 0;
+        setInterval(() => {
+            slideIdx = (slideIdx + 1) % slides.length;
+            const el = document.getElementById('slider-bg');
+            if (el) el.style.backgroundImage = `url("${slides[slideIdx]}")`;
+        }, 5000);
+
+        function showMenu() { document.getElementById('home-page').style.display = 'none'; document.getElementById('menu-page').style.display = 'block'; window.scrollTo(0, 0); render('oriental', document.querySelector('.tab')); }
+        function showHome() { document.getElementById('home-page').style.display = 'flex'; document.getElementById('menu-page').style.display = 'none'; }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        function render(cat, btn) {
+            currentCat = cat;
+            if (btn) { document.querySelectorAll('.tab').forEach(t => t.classList.remove('active')); btn.classList.add('active'); }
+
+            let html = "";
+            database[cat].forEach((p, i) => {
+                let img = p.img || `https://via.placeholder.com/300x200?text=${p.name}`;
+                if (p.isMix) {
+                    html += `<div class="card" style="grid-column: 1/-1; background: var(--primary); color: white;"><h3 style="color: white;">${p.title}</h3>` +
+                        database[p.source].filter(x => !x.isMix).map(sub => `<div style="display:flex; justify-content:space-between; padding:5px; color: white;">${sub.name}<input type="number" class="mix-sub" data-name="${sub.name}" data-price="${sub.price}" style="width:60px" placeholder="جم"></div>`).join('') + `<button class="hero-btn" style="box-shadow:none; margin-top:10px; font-size:1rem; color: white; border: 1px solid white;" onclick="addMix('${p.title}')">إضافة</button></div>`;
+                } else if (p.type === 'kg') {
+                    let displayPrice = (p.price / 4).toFixed(2);
+                    let unit = 'ج/ربع كيلو';
+                    let weightOptions = `<option value="0.25">250جم</option><option value="0.5">500جم</option><option value="1" selected>1 كيلو</option>`;
+                    html += `<div class="card"><img src="${img}"><h3>${p.name}</h3><span class="price-badge">${displayPrice} ${unit}</span><select id="w-${cat}-${i}" class="weight-select">${weightOptions}</select><button class="add-btn" onclick="addKg('${cat}',${i})">إضافة</button></div>`;
+                } else {
+                    html += `<div class="card"><img src="${img}"><h3>${p.name}</h3><span class="price-badge">${p.price} ج.م</span><input type="number" id="q-${cat}-${i}" class="weight-select" value="1" min="1"><button class="add-btn" onclick="addPiece('${cat}',${i})">إضافة</button></div>`;
+                }
+            });
+            document.getElementById('product-grid').innerHTML = html;
+        }
+
+        function searchProducts(q) {
+            if (!q) return render(currentCat);
+            let html = "";
+            let found = false;
+            for (let cat in database) {
+                database[cat].forEach((p, i) => {
+                    if (!p.isMix && p.name.includes(q)) {
+                        found = true;
+                        let img = p.img || `https://via.placeholder.com/300x200?text=${p.name}`;
+                        if (p.type === 'kg') {
+                            let displayPrice = (p.price / 4).toFixed(2);
+                            let unit = 'ج/ربع كيلو';
+                            let weightOptions = `<option value="0.25">250جم</option><option value="0.5">500جم</option><option value="1" selected>1 كيلو</option>`;
+                            html += `<div class="card"><img src="${img}"><h3>${p.name}</h3><span class="price-badge">${displayPrice} ${unit}</span><select id="s-w-${cat}-${i}" class="weight-select">${weightOptions}</select><button class="add-btn" onclick="addKgSearch('${cat}',${i})">إضافة</button></div>`;
+                        } else {
+                            html += `<div class="card"><img src="${img}"><h3>${p.name}</h3><span class="price-badge">${p.price} ج.م</span><input type="number" id="s-q-${cat}-${i}" class="weight-select" value="1" min="1"><button class="add-btn" onclick="addPieceSearch('${cat}',${i})">إضافة</button></div>`;
+                        }
+                    }
+                });
+            }
+            document.getElementById('product-grid').innerHTML = found ? html : "<p style='text-align:center; width:100%;'>لا توجد نتائج</p>";
+        }
+
+        function addKgSearch(cat, i) { const p = database[cat][i], s = document.getElementById(`s-w-${cat}-${i}`); addToCart(p.name, parseFloat(s.value) * p.price, `${s.options[s.selectedIndex].text}`); }
+        function addPieceSearch(cat, i) { const p = database[cat][i], q = document.getElementById(`s-q-${cat}-${i}`).value; addToCart(p.name, q * p.price, `${q} قطعة`); }
+
+        function addMix(title) {
+            let subs = document.querySelectorAll('.mix-sub'), details = [], total = 0;
+            subs.forEach(s => {
+                if (s.value > 0) {
+                    let w = parseFloat(s.value), p = parseFloat(s.dataset.price);
+                    details.push(`${s.dataset.name} (${w}جم)`);
+                    total += (w / 1000) * p;
+                }
+            });
+            if (details.length) { addToCart(`${title}: ${details.join(' + ')}`, total); alert("تمت إضافة العلبة"); }
+        }
+
+        function addKg(cat, i) { const p = database[cat][i], s = document.getElementById(`w-${cat}-${i}`); addToCart(p.name, parseFloat(s.value) * p.price, s.options[s.selectedIndex].text); }
+        function addPiece(cat, i) { const p = database[cat][i], q = document.getElementById(`q-${cat}-${i}`).value; addToCart(p.name, q * p.price, `${q} قطعة`); }
+
+        function addToCart(name, price, titleSuffix = "") {
+            cart.push({ name: name + (titleSuffix ? ` (${titleSuffix})` : ""), price: price });
+            saveCart();
+            updateUI();
+            const btn = document.getElementById('cart-btn');
+            btn.classList.add('animate__animated', 'animate__rubberBand');
+            setTimeout(() => btn.classList.remove('animate__animated', 'animate__rubberBand'), 1000);
+        }
+
+        function updateUI() { document.getElementById('cart-count').innerText = cart.length; }
+        function saveCart() { localStorage.setItem('oudelle_cart', JSON.stringify(cart)); }
+
+        function showCart() {
+            const m = document.getElementById('cartModal');
+            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+            if (m.style.display === 'flex') {
+                document.getElementById('cart-list').innerHTML = cart.map((it, i) => `<div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding:5px;">${it.name} <span>${it.price.toFixed(2)} ج <button onclick="remove(${i})" style="color:red; border:none; background:none; cursor:pointer;">🗑️</button></span></div>`).join('');
+                updateTotal();
+            }
+        }
+
+        function remove(i) { cart.splice(i, 1); saveCart(); updateUI(); showCart(); }
+
+        function toggleFields() {
+            const m = document.getElementById('del-method').value;
+            document.getElementById('dinein-field').classList.toggle('hidden', m !== 'dinein');
+            document.getElementById('delivery-field').classList.toggle('hidden', m !== 'delivery');
+            document.getElementById('phone-field').classList.toggle('hidden', m === 'dinein');
+            document.getElementById('instapay-ui').style.display = (m === 'dinein') ? 'none' : 'block';
+            updateTotal();
+        }
+
+        function copyNumber() { navigator.clipboard.writeText("01023728183"); alert("تم نسخ الرقم!"); }
+        function selectTable(n, el) {
+            document.querySelectorAll('.table-card').forEach(s => s.classList.remove('selected'));
+            el.classList.add('selected');
+            el.classList.add('animate__animated', 'animate__pulse');
+            setTimeout(() => el.classList.remove('animate__animated', 'animate__pulse'), 1000);
+            selectedTableNumber = n;
+        }
+
+        function updateTotal() {
+            const subtotal = cart.reduce((s, it) => s + it.price, 0);
+            let shipping = (document.getElementById('del-method').value === 'delivery') ? parseInt(document.getElementById('area-select').value) : 0;
+            document.getElementById('total-price').innerText = `الإجمالي: ${(subtotal + shipping).toFixed(2)} ج.م`;
+        }
+
+        function checkout() {
+            const name = document.getElementById('c-name').value, meth = document.getElementById('del-method').value;
+            if (!name) return alert("الاسم مطلوب");
+            if (meth !== 'dinein' && !confirm("هل قمت بالتحويل وتصوير لقطة الشاشة؟")) return;
+
+            let orderNum = localStorage.getItem('oudelle_order_counter') || 0;
+            orderNum = parseInt(orderNum) + 1;
+            localStorage.setItem('oudelle_order_counter', orderNum);
+
+            let text = `*طلب جديد من oudélle رقم #${orderNum}*\n*الاسم:* ${name}\n`;
+
+            if (meth === 'dinein') {
+                text += `*نوع الطلب:* داخل المطعم\n*الطاولة:* ${selectedTableNumber}\n`;
+            } else {
+                const methAr = (meth === 'delivery') ? 'توصيل للمنزل' : 'استلام من الفرع';
+                text += `*نوع الطلب:* ${methAr}\n*الهاتف:* ${document.getElementById('c-phone').value}\n*الدفع:* InstaPay ✅\n`;
+                if (meth === 'delivery') text += `*العنوان:* ${document.getElementById('c-addr').value}\n`;
+            }
+            text += `*المنتجات:*\n` + cart.map(it => `• ${it.name} = ${it.price.toFixed(2)} ج`).join('\n') + `\n*الإجمالي:* ${document.getElementById('total-price').innerText}`;
+
+            window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(text)}`);
+        }
+    </script>
+</body>
+
+</html>
